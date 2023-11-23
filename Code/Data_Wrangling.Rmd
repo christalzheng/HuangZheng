@@ -1,0 +1,26 @@
+---
+title: "Data_Wrangling"
+output: pdf_document
+---
+
+## Set up
+
+```{r setup, message=FALSE}
+library(tidyverse)
+library(here)
+library(lubridate)
+
+setwd("D:/HuangZheng/ROSIE/Final_Project")
+Database <- read.csv(here("Database.csv"), stringsAsFactors = TRUE)
+unique(Database$Species) # total of 124 amphibian species
+
+# Create a pie graph with all 124 amphibian species?
+
+
+
+# need to think about captive/wild ; first year and last year
+
+processed_data <- Database %>% group_by(Species, Mean_Temp,Mean_Temp_SD, Latitude,Longitude) %>% summarise()
+
+
+```

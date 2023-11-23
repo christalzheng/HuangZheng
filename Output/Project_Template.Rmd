@@ -1,3 +1,10 @@
+---
+title: "Determinants Influencing the Sex Ratio of Turtle Offspring"
+author: "Yuechen Huang; Shiqi Zheng"
+date: "Fall 2023"
+output: pdf_document
+toc: TRUE
+---
 \newpage
 \tableofcontents 
 \newpage
