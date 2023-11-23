@@ -1,0 +1,29 @@
+---
+title: "Determinants Influencing the Sex Ratio of Turtle Offspring"
+author: "Yuechen Huang; Shiqi Zheng"
+date: "Fall 2023"
+output: pdf_document
+toc: TRUE
+---
+
+## Set up and Data Wrangling
+```{r setup, message=FALSE}
+library(tidyverse)
+library(here)
+library(lubridate)
+
+setwd("D:/HuangZheng/ROSIE/Final_Project")
+Database <- read.csv(here("Database.csv"), stringsAsFactors = TRUE)
+unique(Database$Species) # total of 124 amphibian species
+
+# Create a pie graph with all 124 amphibian species?
+
+
+
+# need to think about captive/wild ; first year and last year
+```
+
+```{r data wrangling}
+processed_data <- Database %>% group_by(Species, Mean_Temp,Mean_Temp_SD, Latitude,Longitude) %>% summarise()
+```
+
