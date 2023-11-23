@@ -6,21 +6,51 @@ output: pdf_document
 ## Set up
 
 ```{r setup, message=FALSE}
+knitr::opts_chunk$set(include = FALSE) # don't show output and the code 
+
 library(tidyverse)
 library(here)
 library(lubridate)
 
-setwd("D:/HuangZheng/ROSIE/Final_Project")
-Database <- read.csv(here("Database.csv"), stringsAsFactors = TRUE)
+getwd()
+here()
+Database <- read.csv(here("Raw/ROSIE/Database.csv"), stringsAsFactors = TRUE)
+
 unique(Database$Species) # total of 124 amphibian species
-
-# Create a pie graph with all 124 amphibian species?
-
-
-
-# need to think about captive/wild ; first year and last year
-
-processed_data <- Database %>% group_by(Species, Mean_Temp,Mean_Temp_SD, Latitude,Longitude) %>% summarise()
+unique(Database$Order)
+# Create a pie graph/treemap with all 124 amphibian species?
+#https://www.data-to-viz.com/caveat/pie.html
 
 
+
+```
+
+## Data Wrangling
+
+```{r data wrangling}
+cleaned_data <- Database %>% 
+  filter(is.na(Chemical_Concentration)) %>% # don't want chemical treatment
+  filter(!is.na(Proportion_Male)) %>% # we want to rows that have proportion_male data
+  select(Species, Mean_Temp,Mean_Temp_SD, 
+         Latitude, Longitude, Captive, Humidity, 
+         First_Year, First_Month, Last_Year, Last_Month,
+         Proportion_Male, Proportion_Female) %>% 
+  mutate(Sex_ratio = Proportion_Male / Proportion_Female) %>% 
+  filter(!is.nan(Sex_ratio)) # we found there are some NaN data in sex ratio column, we may need to filter these data out  
+
+# Deal with date
+cleaned_data$Start_Date <- as.Date(paste(cleaned_data$First_Year, 
+                                         cleaned_data$First_Month,
+                                         "01", sep = "-"))
+cleaned_data$End_Date <- as.Date(paste(cleaned_data$Last_Year, 
+                                         cleaned_data$Last_Month,
+                                         "01", sep = "-"))
+
+# re-select column we need
+cleaned_data <- select(cleaned_data, Species, Mean_Temp,Mean_Temp_SD, 
+         Latitude, Longitude, Captive, Humidity, 
+         Start_Date, End_Date, Sex_ratio)
+
+# create a cleaned data in processed folder
+write.csv(cleaned_data, file = here("Processed/Cleaned_Data.csv"), row.names = FALSE)
 ```
