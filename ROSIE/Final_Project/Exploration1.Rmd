@@ -3,19 +3,17 @@ title: "Determinants Influencing the Sex Ratio of Turtle Offspring"
 output: pdf_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-
-```
-
-```{r Explore data}
+```{r setup, message=FALSE}
 library(readr)
 library(tidyverse)
 
 
-setwd("D://ROSIE/Final_Project")
-Database <- read_csv("D://ROSIE/Database.csv")
+setwd("D://HuangZheng/ROSIE/Final_Project")
+Database <- read_csv("D://HuangZheng/ROSIE/Database.csv")
 unique(Database$Species) # total of 124 amphibian species
+
+# Create a pie graph with all 124 amphibian species?
+
 processed_data <- Database %>% group_by(Species, Mean_Temp,Mean_Temp_SD, Latitude,Longitude) %>% summarise()
 
 # need to think about captive/wild ; first year and last year
