@@ -34,7 +34,7 @@ cleaned_data <- Database %>%
          First_Year, First_Month, Last_Year, Last_Month,
          Proportion_Male, Proportion_Female) %>% 
   mutate(Sex_ratio = Proportion_Male / Proportion_Female) %>% 
-  filter(!is.nan(Sex_ratio)) # we found there are some NaN data in sex ratio column, we may need to filter these data out  
+  filter(!is.nan(Sex_ratio)) # we found there are some NaN and infinite data in sex ratio column, we may need to filter these data out  
 
 # Deal with date
 cleaned_data$Start_Date <- as.Date(paste(cleaned_data$First_Year, 

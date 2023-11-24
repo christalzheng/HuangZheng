@@ -16,9 +16,7 @@ library(here)
 
 Cleaned_Data <- read.csv(here("Processed/Cleaned_Data.csv"), 
                          stringsAsFactors = TRUE)
-unique(Cleaned_Data$Species) # total of 124 amphibian species
-
-# Create a pie graph/phylogenetic tree with all 124 amphibian species?
+# unique(Cleaned_Data$Species) # total of 124 amphibian species
 
 
 # need to think about captive/wild ; first year and last year
@@ -36,13 +34,20 @@ Cleaned_Data$Species_names <- gsub("_", " ", Cleaned_Data$Species_names)
 
 # Create a data frame that calculate the mean sex ratio of each species
 Data_species <- Cleaned_Data %>% group_by(Species_names) %>%
-  summarise(mean_Sex_ratio = mean(Sex_ratio)) 
+  summarise(mean_sex_ratio = mean(Sex_ratio),
+            SD_sex_ratio = sd(Sex_ratio),
+            mean_humidity_sp = mean(Humidity),
+            SD_humidity_sp = sd(Humidity),
+            mean_temp_sp = mean(Mean_Temp),
+            SD_temp_sp = sd(Mean_Temp)) 
 
 Data_species$taxa <- rotl::tnrs_match_names(Data_species$Species_names)
 tree <- rotl::tol_induced_subtree(ott_ids = ott_id(Data_species$taxa))
 collaped_tree <- ape::ladderize(ape::collapse.singles(tree, root.edge = FALSE)) ## tried to make this less messy but doesn't work
 plot(collaped_tree, cex = .8, label.offset = .1, no.margin = TRUE)
 ```
+
+### Tree map
 Because there are too many species, the plot looks very messy...Then we can try to make a treemap instead (https://r-graph-gallery.com/236-custom-your-treemap.html).
 
 ```{r treemap}
@@ -70,6 +75,7 @@ phytree <- treemap(species_count,
         overlap.labels= 0.15,
         inflate.labels= T,
         )
+
 interactive_tree <- d3tree2(phytree, 
                             rootname = "Species Occurance in the database")
 
@@ -78,3 +84,20 @@ library(htmlwidgets)
 saveWidget(interactive_tree, file=paste0(here(), "/Processed/interactiveTreemap.html"))
 ```
 
+From the tree maps (ggplot map and interactive tree map) we can see that all of the species are within Testudines Order. The most abundant family is Cheloniidae, Emydidae and Chelydridae. The species we have most in our database is Common snapping turtle (Chelydra serpentina) and Green sea turtle (Chelydra serpentina) with a occurrence of 1123 and 881 records.
+
+### Basic statistics about species
+We will explore sex ratio, humidity and temperature data for different species respectively.
+
+#### Sex ratio among species
+First, we need to filter the data because we have too many species. Let's only focus on species that have more than 100 records in our data base
+```{r stats}
+
+filtered_sp_df <- filter(species_count, n >= 100)
+sp_100_data <- filter(Data_species, Species_names
+  %in% filtered_sp_df$Species_names)
+
+#ggplot(Data_species, aes(x = ))
+```
+
+Even without graph, we can see that all of the species have a very high sex ratio (infinite number of sex ratio). This may due to the fact that if we have more records of a specific species, the chance to have extreme high (even infinite) sex ratio records can get higher. Perhaps we need to omit infinite data? 
