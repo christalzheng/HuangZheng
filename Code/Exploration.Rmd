@@ -2,28 +2,79 @@
 title: "Determinants Influencing the Sex Ratio of Turtle Offspring"
 author: "Yuechen Huang; Shiqi Zheng"
 date: "Fall 2023"
-output: pdf_document
-toc: TRUE
+output:
+  html_document:
+    df_print: paged
+toc: yes
 ---
 
 ## Set up and Data Wrangling
 ```{r setup, message=FALSE}
 library(tidyverse)
 library(here)
-library(lubridate)
 
-setwd("D:/HuangZheng/ROSIE/Final_Project")
-Database <- read.csv(here("Database.csv"), stringsAsFactors = TRUE)
-unique(Database$Species) # total of 124 amphibian species
 
-# Create a pie graph with all 124 amphibian species?
+Cleaned_Data <- read.csv(here("Processed/Cleaned_Data.csv"), 
+                         stringsAsFactors = TRUE)
+unique(Cleaned_Data$Species) # total of 124 amphibian species
 
+# Create a pie graph/phylogenetic tree with all 124 amphibian species?
 
 
 # need to think about captive/wild ; first year and last year
 ```
 
-```{r data wrangling}
-processed_data <- Database %>% group_by(Species, Mean_Temp,Mean_Temp_SD, Latitude,Longitude) %>% summarise()
+## Explore the species 
+### Phylogenetic tree
+We used a "rotl" package to interact with the Open Tree of Life data (https://doi.org/10.1111/2041-210X.12593). First, we need to change the name of the species into something compatible with the package.
+
+```{r generate phylogenetic tree}
+Cleaned_Data$Species_names <- as.character(Cleaned_Data$Species)  # Convert factors to characters
+
+# Replace underscores with spaces
+Cleaned_Data$Species_names <- gsub("_", " ", Cleaned_Data$Species_names)
+
+# Create a data frame that calculate the mean sex ratio of each species
+Data_species <- Cleaned_Data %>% group_by(Species_names) %>%
+  summarise(mean_Sex_ratio = mean(Sex_ratio)) 
+
+Data_species$taxa <- rotl::tnrs_match_names(Data_species$Species_names)
+tree <- rotl::tol_induced_subtree(ott_ids = ott_id(Data_species$taxa))
+collaped_tree <- ape::ladderize(ape::collapse.singles(tree, root.edge = FALSE)) ## tried to make this less messy but doesn't work
+plot(collaped_tree, cex = .8, label.offset = .1, no.margin = TRUE)
+```
+Because there are too many species, the plot looks very messy...Then we can try to make a treemap instead (https://r-graph-gallery.com/236-custom-your-treemap.html).
+
+```{r treemap}
+library(ggplot2)
+## install.packages("treemap")
+# install.packages("remotes")
+# remotes::install_github("d3treeR/d3treeR")
+library(treemap)
+library(d3treeR)
+
+species_count <- count(Cleaned_Data, Order, Family, Genus, Species_names)
+write.csv(species_count, file = here("Processed/Species_Count.csv"), row.names = FALSE)
+
+phytree <- treemap(species_count, 
+        index = c("Order", "Family", "Genus", "Species_names"),
+        vSize = "n",
+        type = "index",
+        vColor = "index",
+        title="Species Occurance in the database",
+        palette="Dark2",
+        fontsize.labels=c(15,12,11,10),
+        fontcolor.labels = c("White","Black","Grey","#ffce86"),
+        fontface.labels=c(2,1,1,3),  
+        bg.labels=c("transparent"), 
+        overlap.labels= 0.15,
+        inflate.labels= T,
+        )
+interactive_tree <- d3tree2(phytree, 
+                            rootname = "Species Occurance in the database")
+
+# save the widget
+library(htmlwidgets)
+saveWidget(interactive_tree, file=paste0(here(), "/Processed/interactiveTreemap.html"))
 ```
 

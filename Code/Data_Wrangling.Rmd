@@ -12,16 +12,13 @@ library(tidyverse)
 library(here)
 library(lubridate)
 
-getwd()
-here()
+
 Database <- read.csv(here("Raw/ROSIE/Database.csv"), stringsAsFactors = TRUE)
 
 unique(Database$Species) # total of 124 amphibian species
 unique(Database$Order)
 # Create a pie graph/treemap with all 124 amphibian species?
 #https://www.data-to-viz.com/caveat/pie.html
-
-
 
 ```
 
@@ -31,7 +28,8 @@ unique(Database$Order)
 cleaned_data <- Database %>% 
   filter(is.na(Chemical_Concentration)) %>% # don't want chemical treatment
   filter(!is.na(Proportion_Male)) %>% # we want to rows that have proportion_male data
-  select(Species, Mean_Temp,Mean_Temp_SD, 
+  select(Order, Family, Genus, Species, 
+         Mean_Temp,Mean_Temp_SD, 
          Latitude, Longitude, Captive, Humidity, 
          First_Year, First_Month, Last_Year, Last_Month,
          Proportion_Male, Proportion_Female) %>% 
@@ -47,9 +45,10 @@ cleaned_data$End_Date <- as.Date(paste(cleaned_data$Last_Year,
                                          "01", sep = "-"))
 
 # re-select column we need
-cleaned_data <- select(cleaned_data, Species, Mean_Temp,Mean_Temp_SD, 
-         Latitude, Longitude, Captive, Humidity, 
-         Start_Date, End_Date, Sex_ratio)
+cleaned_data <- select(cleaned_data, Order, Family, Genus, Species,
+                       Mean_Temp,Mean_Temp_SD,
+                       Latitude, Longitude, Captive, Humidity, 
+                       Start_Date, End_Date, Sex_ratio)
 
 # create a cleaned data in processed folder
 write.csv(cleaned_data, file = here("Processed/Cleaned_Data.csv"), row.names = FALSE)
