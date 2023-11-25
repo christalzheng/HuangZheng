@@ -85,6 +85,7 @@ phytree <- treemap(species_count,
 
 interactive_tree <- d3tree2(phytree, 
                             rootname = "Species Occurance in the database")
+interactive_tree
 
 # save the widget
 library(htmlwidgets)
@@ -124,6 +125,7 @@ ggplot(sp_100_data, aes(x = Species_names, y = Mean_Temp,
   labs(x = "Species Names", y = expression("Hatching Temperature ("*~degree*C*")")) 
   # + geom_text(aes(label = round(mean_temp_sp, 2)), vjust = -0.5)  
 ```
+Hatching temperature among all the species are around 25 - 35 degree Celsius. Emys orbicularis have a high variance of hatching temperature for different individuals or communities.
 
 \newpage
 ## Captive vs Wild turtles
