@@ -5,18 +5,24 @@ date: "Fall 2023"
 output:
   html_document:
     df_print: paged
-toc: yes
 ---
 
 ## Set up and Data Wrangling
-```{r setup, message=FALSE}
+```{r setup, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(here)
-
+library(rotl)
 
 Cleaned_Data <- read.csv(here("Processed/Cleaned_Data.csv"), 
                          stringsAsFactors = TRUE)
-# unique(Cleaned_Data$Species) # total of 124 amphibian species
+theme_yh <- theme_classic(base_size = 14) + 
+  theme(axis.text = element_text(color = "black"),
+  legend.position = "right",
+  legend.text = element_text(size = 10),
+  legend.title = element_text(size = 11),
+  plot.title = element_text(size = rel(1.5)),
+  axis.text.x = element_text(angle = 75, vjust = 1, hjust=1))
+
 
 
 # need to think about captive/wild ; first year and last year
@@ -26,7 +32,7 @@ Cleaned_Data <- read.csv(here("Processed/Cleaned_Data.csv"),
 ### Phylogenetic tree
 We used a "rotl" package to interact with the Open Tree of Life data (https://doi.org/10.1111/2041-210X.12593). First, we need to change the name of the species into something compatible with the package.
 
-```{r generate phylogenetic tree}
+```{r generate phylogenetic tree, fig.height=10, fig.width=6, warning=FALSE}
 Cleaned_Data$Species_names <- as.character(Cleaned_Data$Species)  # Convert factors to characters
 
 # Replace underscores with spaces
@@ -34,17 +40,18 @@ Cleaned_Data$Species_names <- gsub("_", " ", Cleaned_Data$Species_names)
 
 # Create a data frame that calculate the mean sex ratio of each species
 Data_species <- Cleaned_Data %>% group_by(Species_names) %>%
-  summarise(mean_sex_ratio = mean(Sex_ratio),
-            SD_sex_ratio = sd(Sex_ratio),
-            mean_humidity_sp = mean(Humidity),
-            SD_humidity_sp = sd(Humidity),
-            mean_temp_sp = mean(Mean_Temp),
-            SD_temp_sp = sd(Mean_Temp)) 
+  summarise(mean_sex_ratio = mean(Sex_ratio, na.rm = TRUE),
+            SD_sex_ratio = sd(Sex_ratio, na.rm = TRUE),
+            mean_humidity_sp = mean(Humidity, na.rm = TRUE),
+            SD_humidity_sp = sd(Humidity, na.rm = TRUE),
+            mean_temp_sp = mean(Mean_Temp, na.rm = TRUE),
+            SD_temp_sp = sd(Mean_Temp, na.rm = TRUE)) 
+write.csv(Data_species, file = here("Processed/Data_Species.csv"), row.names = FALSE) # Data regroup by species
 
 Data_species$taxa <- rotl::tnrs_match_names(Data_species$Species_names)
-tree <- rotl::tol_induced_subtree(ott_ids = ott_id(Data_species$taxa))
+tree <- tol_induced_subtree(ott_ids = ott_id(Data_species$taxa))
 collaped_tree <- ape::ladderize(ape::collapse.singles(tree, root.edge = FALSE)) ## tried to make this less messy but doesn't work
-plot(collaped_tree, cex = .8, label.offset = .1, no.margin = TRUE)
+plot(collaped_tree, cex = .5, label.offset = .1, no.margin = TRUE)
 ```
 
 ### Tree map
@@ -59,7 +66,7 @@ library(treemap)
 library(d3treeR)
 
 species_count <- count(Cleaned_Data, Order, Family, Genus, Species_names)
-write.csv(species_count, file = here("Processed/Species_Count.csv"), row.names = FALSE)
+write.csv(species_count, file = here("Processed/Species_Count.csv"), row.names = FALSE) 
 
 phytree <- treemap(species_count, 
         index = c("Order", "Family", "Genus", "Species_names"),
@@ -84,20 +91,43 @@ library(htmlwidgets)
 saveWidget(interactive_tree, file=paste0(here(), "/Processed/interactiveTreemap.html"))
 ```
 
-From the tree maps (ggplot map and interactive tree map) we can see that all of the species are within Testudines Order. The most abundant family is Cheloniidae, Emydidae and Chelydridae. The species we have most in our database is Common snapping turtle (Chelydra serpentina) and Green sea turtle (Chelydra serpentina) with a occurrence of 1123 and 881 records.
+From the tree maps (ggplot map and interactive tree map) we can see that all of the species are within Testudines Order. The most abundant family is Cheloniidae, Emydidae and Chelydridae. The species we have most in our database is Common snapping turtle (Chelydra serpentina) and Green sea turtle (Chelonia mydas) with a occurrence of 1123 and 881 records.
 
 ### Basic statistics about species
-We will explore sex ratio, humidity and temperature data for different species respectively.
+We will explore sex ratio and temperature data for different species respectively.
 
 #### Sex ratio among species
 First, we need to filter the data because we have too many species. Let's only focus on species that have more than 100 records in our data base
 ```{r stats}
 
 filtered_sp_df <- filter(species_count, n >= 100)
-sp_100_data <- filter(Data_species, Species_names
-  %in% filtered_sp_df$Species_names)
-
+Sp_100 <- filtered_sp_df$Species_names
+Sp_100
+sp_100_sp <- filter(Data_species, Species_names
+  %in% Sp_100) # Data regroup by species and only species that have 100 records are included
+sp_100_data <- filter(Cleaned_Data, Species_names
+  %in% Sp_100) # Whole cleaned data and only species that have more than 100 records are included
+  
 #ggplot(Data_species, aes(x = ))
 ```
 
 Even without graph, we can see that all of the species have a very high sex ratio (infinite number of sex ratio). This may due to the fact that if we have more records of a specific species, the chance to have extreme high (even infinite) sex ratio records can get higher. Perhaps we need to omit infinite data? 
+
+#### Temperature among species
+
+```{r temp}
+ggplot(sp_100_data, aes(x = Species_names, y = Mean_Temp, 
+                      fill = Species_names, 
+                      label = Mean_Temp)) + 
+  geom_boxplot(na.rm = TRUE) + theme_yh +
+  scale_fill_brewer(palette="Set3") + 
+  labs(x = "Species Names", y = expression("Hatching Temperature ("*~degree*C*")")) 
+  # + geom_text(aes(label = round(mean_temp_sp, 2)), vjust = -0.5)  
+```
+
+\newpage
+## Captive vs Wild turtles
+```{r captivity}
+
+```
+
