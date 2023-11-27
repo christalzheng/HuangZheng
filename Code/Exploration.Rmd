@@ -94,7 +94,7 @@ From the tree maps (ggplot map and interactive tree map) we can see that all of 
 We will explore sex ratio and temperature data for different species respectively.
 
 #### Sex ratio among species
-First, we need to filter the data because we have too many species. Let's only focus on species that have more than 100 records in our data base
+First, we need to filter the data because we have too many species. Let's only focus on Family level data.
 ```{r stats}
 
 filtered_sp_df <- filter(species_count, n >= 100)

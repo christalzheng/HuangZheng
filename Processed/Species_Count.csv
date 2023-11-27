@@ -1,14 +1,5 @@
 "Order","Family","Genus","Species_names","n"
 "Testudines","Carettochelyidae","Carettochelys","Carettochelys insculpta",62
-"Testudines","Chelidae","Chelodina","Chelodina longicollis",12
-"Testudines","Chelidae","Elseya","Elseya novaeguineae",8
-"Testudines","Chelidae","Elusor","Elusor macrurus",4
-"Testudines","Chelidae","Emydura","Emydura macquarii",29
-"Testudines","Chelidae","Emydura","Emydura subglobosa",7
-"Testudines","Chelidae","Emydura","Emydura victoriae",1
-"Testudines","Chelidae","Mesoclemmys","Mesoclemmys gibba",8
-"Testudines","Chelidae","Phrynops","Phrynops geoffroanus",4
-"Testudines","Chelidae","Phrynops","Phrynops hilarii",4
 "Testudines","Cheloniidae","Caretta","Caretta caretta",744
 "Testudines","Cheloniidae","Chelonia","Chelonia mydas",881
 "Testudines","Cheloniidae","Eretmochelys","Eretmochelys imbricata",140
@@ -27,8 +18,6 @@
 "Testudines","Emydidae","Emys","Emys blandingii",5
 "Testudines","Emydidae","Emys","Emys marmorata",15
 "Testudines","Emydidae","Emys","Emys orbicularis",204
-"Testudines","Emydidae","Glyptemys","Glyptemys insculpta",6
-"Testudines","Emydidae","Glyptemys","Glyptemys muhlenbergii",1
 "Testudines","Emydidae","Graptemys","Graptemys barbouri",4
 "Testudines","Emydidae","Graptemys","Graptemys caglei",5
 "Testudines","Emydidae","Graptemys","Graptemys geographica",13
@@ -54,7 +43,6 @@
 "Testudines","Geoemydidae","Batagur","Batagur affinis",10
 "Testudines","Geoemydidae","Batagur","Batagur baska",3
 "Testudines","Geoemydidae","Batagur","Batagur borneoensis",8
-"Testudines","Geoemydidae","Cuora","Cuora bourreti/mouhotii",1
 "Testudines","Geoemydidae","Cuora","Cuora flavomarginata",5
 "Testudines","Geoemydidae","Cuora","Cuora trifasciata",5
 "Testudines","Geoemydidae","Cuora","Cuora zhoui",3
@@ -70,7 +58,6 @@
 "Testudines","Geoemydidae","Melanochelys","Melanochelys trijuga",12
 "Testudines","Geoemydidae","Rhinoclemmys","Rhinoclemmys areolata",7
 "Testudines","Geoemydidae","Rhinoclemmys","Rhinoclemmys pulcherrima",4
-"Testudines","Kinosternidae","Claudius","Claudius angustatus",3
 "Testudines","Kinosternidae","Kinosternon","Kinosternon alamosae",6
 "Testudines","Kinosternidae","Kinosternon","Kinosternon baurii",16
 "Testudines","Kinosternidae","Kinosternon","Kinosternon creaseri",7
@@ -81,8 +68,6 @@
 "Testudines","Kinosternidae","Kinosternon","Kinosternon sonoriense",7
 "Testudines","Kinosternidae","Kinosternon","Kinosternon stejnegeri",18
 "Testudines","Kinosternidae","Kinosternon","Kinosternon subrubrum",13
-"Testudines","Kinosternidae","Staurotypus","Staurotypus salvinii",9
-"Testudines","Kinosternidae","Staurotypus","Staurotypus triporcatus",8
 "Testudines","Kinosternidae","Sternotherus","Sternotherus carinatus",11
 "Testudines","Kinosternidae","Sternotherus","Sternotherus minor",17
 "Testudines","Kinosternidae","Sternotherus","Sternotherus odoratus",23
@@ -116,9 +101,4 @@
 "Testudines","Testudinidae","Testudo","Testudo graeca",10
 "Testudines","Testudinidae","Testudo","Testudo hermanni",24
 "Testudines","Testudinidae","Testudo","Testudo kleinmanni",1
-"Testudines","Trionychidae","Amyda","Amyda cartilaginea",1
-"Testudines","Trionychidae","Apalone","Apalone ferox",1
-"Testudines","Trionychidae","Apalone","Apalone mutica",22
-"Testudines","Trionychidae","Apalone","Apalone spinifera",31
 "Testudines","Trionychidae","Chitra","Chitra chitra",4
-"Testudines","Trionychidae","Pelodiscus","Pelodiscus sinensis",78

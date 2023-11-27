@@ -14,12 +14,6 @@ library(lubridate)
 
 
 Database <- read.csv(here("Raw/ROSIE/Database.csv"), stringsAsFactors = TRUE)
-
-unique(Database$Species) # total of 124 amphibian species
-unique(Database$Order)
-# Create a pie graph/treemap with all 124 amphibian species?
-#https://www.data-to-viz.com/caveat/pie.html
-
 ```
 
 ## Data Wrangling
