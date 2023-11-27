@@ -28,12 +28,14 @@ unique(Database$Order)
 cleaned_data <- Database %>% 
   filter(is.na(Chemical_Concentration)) %>% # don't want chemical treatment
   filter(!is.na(Proportion_Male)) %>% # we want to rows that have proportion_male data
+  filter(SDM == 'TSD') %>% # we want to focus on turtles that are TSD
   select(Order, Family, Genus, Species, 
          Mean_Temp,Mean_Temp_SD, 
          Latitude, Longitude, Captive, Humidity, 
          First_Year, First_Month, Last_Year, Last_Month,
          Proportion_Male, Proportion_Female) %>% 
   mutate(Sex_ratio = Proportion_Male / Proportion_Female) %>% 
+  mutate(Sex_ratio = ifelse(is.infinite(Sex_ratio), 1, Sex_ratio)) %>% # 0 - all female, 1 - all male
   filter(!is.nan(Sex_ratio)) # we found there are some NaN and infinite data in sex ratio column, we may need to filter these data out  
 
 # Deal with date

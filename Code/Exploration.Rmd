@@ -130,3 +130,25 @@ We want to explore the sex ratio of captive and wild turtles among all different
 
 ```
 
+## view location of data on the map
+```{r location of data}
+library(tidyverse)
+library(sf)
+library(leaflet)
+library(mapview); mapviewOptions(fgb = FALSE)
+Cleaned_Data <- read.csv(here("Processed/Cleaned_Data.csv"), 
+                         stringsAsFactors = TRUE)
+
+# convert data to an sf object
+Cleaned_Data_sf <- Cleaned_Data %>% 
+  filter(!is.na(Latitude)) %>% 
+  filter(!is.na(Longitude)) %>% 
+  st_as_sf(coords = c('Longitude','Latitude'))
+           #crs=4269)
+
+# plot
+ggplot() +
+  geom_sf(data = Cleaned_Data_sf,)
+
+mapview(Cleaned_Data_sf)
+```
