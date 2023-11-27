@@ -22,10 +22,6 @@ theme_yh <- theme_classic(base_size = 14) +
   legend.title = element_text(size = 11),
   plot.title = element_text(size = rel(1.5)),
   axis.text.x = element_text(angle = 75, vjust = 1, hjust=1))
-
-
-
-# need to think about captive/wild ; first year and last year
 ```
 
 ## Explore the species 
@@ -129,6 +125,7 @@ Hatching temperature among all the species are around 25 - 35 degree Celsius. Em
 
 \newpage
 ## Captive vs Wild turtles
+We want to explore the sex ratio of captive and wild turtles among all different species. (Leave it there because of sex ratio problem)
 ```{r captivity}
 
 ```
