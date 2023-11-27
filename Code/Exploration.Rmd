@@ -94,7 +94,7 @@ From the tree maps (ggplot map and interactive tree map) we can see that all of 
 We will explore sex ratio and temperature data for different species respectively.
 
 #### Sex ratio among species
-First, we need to filter the data because we have too many species. Let's only focus on Family level data.
+First, we need to filter the data because we have too many species. Let's only focus on species that have more than 100 records in our data base
 ```{r stats}
 
 filtered_sp_df <- filter(species_count, n >= 100)
@@ -110,7 +110,7 @@ sp_100_data <- filter(Cleaned_Data, Species_names
 
 Even without graph, we can see that all of the species have a very high sex ratio (infinite number of sex ratio). This may due to the fact that if we have more records of a specific species, the chance to have extreme high (even infinite) sex ratio records can get higher. Perhaps we need to omit infinite data? 
 
-#### Temperature among species
+#### Temperature among families
 
 ```{r temp}
 ggplot(sp_100_data, aes(x = Species_names, y = Mean_Temp, 
@@ -130,25 +130,3 @@ We want to explore the sex ratio of captive and wild turtles among all different
 
 ```
 
-## view location of data on the map
-```{r location of data}
-library(tidyverse)
-library(sf)
-library(leaflet)
-library(mapview); mapviewOptions(fgb = FALSE)
-Cleaned_Data <- read.csv(here("Processed/Cleaned_Data.csv"), 
-                         stringsAsFactors = TRUE)
-
-# convert data to an sf object
-Cleaned_Data_sf <- Cleaned_Data %>% 
-  filter(!is.na(Latitude)) %>% 
-  filter(!is.na(Longitude)) %>% 
-  st_as_sf(coords = c('Longitude','Latitude'))
-           #crs=4269)
-
-# plot
-ggplot() +
-  geom_sf(data = Cleaned_Data_sf,)
-
-mapview(Cleaned_Data_sf)
-```
