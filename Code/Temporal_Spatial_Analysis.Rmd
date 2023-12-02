@@ -1,0 +1,48 @@
+---
+title: "Temporal_Spatial_Analysis"
+output: html_document
+date: "2023-12-02"
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(sf)
+library(here)
+```
+
+## Spatial Analysis
+
+high proportion of female appears near equator
+
+```{r Spatial}
+ggplot() +
+  geom_sf(data = world_continent,fill='grey') +
+  geom_sf(data = data_sf, aes(color= Proportion_Male), size=3) +
+  scale_color_gradient(low = "pink", high = "lightblue") + # 0 - all female, 1 - all male
+  labs(title = "Sex Ratio Distribution", color = "Male Proportion")
+
+
+data_sf_temp <- filter(data_sf, !is.na(data_sf$Mean_Temp))
+ggplot() +
+  geom_sf(data = world_continent,fill='grey') +
+  #geom_sf(data = data_sf_temp, aes(label = round(Proportion_Male, 1)), size = 1) +
+  geom_sf(data = data_sf_temp, aes(color= Mean_Temp, size=Proportion_Male)) +
+  scale_color_gradient(low = "white", high = "red") + 
+  scale_size_continuous(range = c(1,4))+
+  labs(title = "Sex Ratio Distribution", color = "Temparatue", size = "Male Proportion")
+  #geom_sf_text(
+   # data = data_sf_temp[data_sf_temp$Proportion_Male > 0.95 | data_sf_temp$Proportion_Male < 0, ],
+   # aes(label = round(Proportion_Male, 1)),
+   # size = 3,
+    #check_overlap = TRUE,
+    #hjust = 1.4)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+
+```
+

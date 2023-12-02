@@ -130,3 +130,44 @@ We want to explore the sex ratio of captive and wild turtles among all different
 
 ```
 
+## Explore data position
+### sorce: https://hub.arcgis.com/datasets/COAGIS::world-continents/explore?location=-0.634214%2C0.000000%2C2.09
+```{r map}
+library(sf)
+library(mapview); mapviewOptions(fgb = FALSE)
+
+# load data
+world_continent<- st_read(here('Raw/World_Continents/World_Continents.shp')) 
+data_sf <- cleaned_data %>%
+  filter(!is.na(cleaned_data$Longitude)) %>% 
+  st_as_sf(coords = c('Longitude','Latitude'),
+          crs=4326) #WGS84
+# select data
+wild_data_sf <- data_sf %>%
+  filter(Captive=='0')
+captive_data_sf <- data_sf %>%
+  filter(Captive=='1')
+other_data_sf <- data_sf %>%
+  filter(is.na(Captive))
+  
+# plot map
+#mapview(world_continent,col.regions='grey', alpha.regions = 0.3)+
+  #mapview(wild_data_sf,col.regions='blue', alpha=0.1 , cex =5, layer.name='Wild')+
+  #mapview(captive_data_sf,col.regions='red',alpha = 0.1, cex =5, layer.name='Captive')
+
+ggplot()  +
+  geom_sf(data = world_continent, aes(fill='grey'),show.legend = "polygon") +
+  geom_sf(data = wild_data_sf, aes(color='blue'), alpha=0.1, cex =3, show.legend = "point") +
+  geom_sf(data = captive_data_sf, aes(color='red'), alpha=0.1 , cex =3) +
+  geom_sf(data = other_data_sf, aes(color='darkgrey'), alpha=0.1 , cex =3)+
+  labs(title = "Distribution of data") +
+  scale_fill_manual(labels = c("World Continent"),
+                    name = NULL,
+                    values = c("grey" = 'grey'), 
+                    guide = guide_legend(override.aes = list(linetype = "blank", shape = NA))) +
+  scale_colour_manual(name = "Data Type",
+                      labels = c("Wild","Captive", "Other"),
+                      values = c("blue" = "blue", 'red'='red','darkgrey'='darkgrey'),
+                      guide = guide_legend(override.aes = list(linetype =  "blank"), 
+                                                               shape = c(16, NA))) 
+```

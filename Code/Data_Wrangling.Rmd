@@ -27,10 +27,11 @@ cleaned_data <- Database %>%
          Mean_Temp,Mean_Temp_SD, 
          Latitude, Longitude, Captive, Humidity, 
          First_Year, First_Month, Last_Year, Last_Month,
-         Proportion_Male, Proportion_Female) %>% 
-  mutate(Sex_ratio = Proportion_Male / Proportion_Female) %>% 
-  mutate(Sex_ratio = ifelse(is.infinite(Sex_ratio), 1, Sex_ratio)) %>% # 0 - all female, 1 - all male
-  filter(!is.nan(Sex_ratio)) # we found there are some NaN and infinite data in sex ratio column, we may need to filter these data out  
+         Proportion_Male, Proportion_Female) 
+  # the term "sex-ratio" is misleading -> abondon, just use male proportion
+  #mutate(Sex_ratio = Proportion_Male / Proportion_Female) %>% 
+ # mutate(Sex_ratio = ifelse(is.infinite(Sex_ratio), 1, Sex_ratio)) %>% # 0/1 -> 0 - all female, 1 -> female = male, 1/0 -> infinite -> all male
+  # filter(!is.nan(Sex_ratio)) # we found there are some NaN and infinite data in sex ratio column, we may need to filter these data out  
 
 # Deal with date
 cleaned_data$Start_Date <- as.Date(paste(cleaned_data$First_Year, 
@@ -44,7 +45,7 @@ cleaned_data$End_Date <- as.Date(paste(cleaned_data$Last_Year,
 cleaned_data <- select(cleaned_data, Order, Family, Genus, Species,
                        Mean_Temp,Mean_Temp_SD,
                        Latitude, Longitude, Captive, Humidity, 
-                       Start_Date, End_Date, Sex_ratio)
+                       Start_Date, End_Date, Proportion_Male, Proportion_Female)
 
 # create a cleaned data in processed folder
 write.csv(cleaned_data, file = here("Processed/Cleaned_Data.csv"), row.names = FALSE)
