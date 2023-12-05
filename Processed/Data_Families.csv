@@ -1,0 +1,104 @@
+"Species_names","mean_sex_ratio","SD_sex_ratio","mean_humidity_sp","SD_humidity_sp","mean_temp_sp","SD_temp_sp","taxa.search_string","taxa.unique_name","taxa.approximate_match","taxa.score","taxa.ott_id","taxa.is_synonym","taxa.flags","taxa.number_matches"
+"Aldabrachelys gigantea",0.39570758,0.1588695,0.9000000,NA,30.00000,NA,aldabrachelys gigantea,Aldabrachelys gigantea,FALSE, 1,  93887,FALSE,, 1
+"Astrochelys radiata",0.08986244,0.1420310,NA,NA,29.45000,0.6350853,astrochelys radiata,Astrochelys radiata,FALSE, 1, 859767,FALSE,, 1
+"Astrochelys yniphora",0.50000000,0.5000000,NA,NA,NA,NA,astrochelys yniphora,Astrochelys yniphora,FALSE, 1, 940487,FALSE,, 1
+"Batagur affinis",0.52666667,0.4559077,NA,NA,29.50000,2.7838822,batagur affinis,Batagur affinis,FALSE, 1, 154908,FALSE,, 1
+"Batagur baska",0.45747126,0.4700461,NA,NA,28.50000,2.1213203,batagur baska,Batagur baska,FALSE, 1, 361285,FALSE,, 1
+"Batagur borneoensis",0.46831797,0.5009521,NA,NA,29.94571,2.1699375,batagur borneoensis,Batagur borneoensis,FALSE, 1, 340373,FALSE,, 1
+"Caretta caretta",0.36778447,0.3791775,0.9301579,0.05908963,29.29343,1.7728304,caretta caretta,Caretta caretta,FALSE, 1, 392505,FALSE,, 1
+"Carettochelys insculpta",0.50677461,0.4591500,NA,NA,31.03917,1.8573317,carettochelys insculpta,Carettochelys insculpta,FALSE, 1, 810244,FALSE,, 1
+"Centrochelys sulcata",0.56544118,0.4975095,NA,NA,30.50000,1.5811388,centrochelys sulcata,Centrochelys sulcata,FALSE, 1,1050325,FALSE,, 1
+"Chelonia mydas",0.40286036,0.4159255,0.8750000,0.00000000,29.39481,1.6767198,chelonia mydas,Chelonia mydas,FALSE, 1, 559133,FALSE,, 1
+"Chelonoidis carbonarius",0.29777778,0.4203467,NA,NA,27.60000,2.5758494,chelonoidis carbonarius,Chelonoidis carbonarius,FALSE, 1, 560352,FALSE,, 1
+"Chelonoidis niger",0.62121212,0.4071221,NA,NA,27.50000,2.8284271,chelonoidis niger,Chelonoidis niger,FALSE, 1, 284917,FALSE,, 1
+"Chelydra rossignonii",0.23347319,0.3528881,NA,NA,27.80000,1.9235384,chelydra rossignonii,Chelydra rossignonii,FALSE, 1, 420313,FALSE,, 2
+"Chelydra serpentina",0.44477123,0.3799771,NA,NA,25.90080,2.6147806,chelydra serpentina,Chelydra serpentina,FALSE, 1, 587311,FALSE,, 1
+"Chersobius signatus",0.40000000,0.5477226,NA,NA,29.25000,0.5000000,chersobius signatus,Chersobius signatus,FALSE, 1, 777390,FALSE,, 1
+"Chitra chitra",0.70000000,0.2802116,NA,NA,NA,NA,chitra chitra,Chitra chitra,FALSE, 1, 402510,FALSE,, 1
+"Chrysemys dorsalis",0.40387590,0.4648893,NA,NA,27.21250,2.8009225,chrysemys dorsalis,Chrysemys dorsalis,FALSE, 1, 680552,FALSE,, 2
+"Chrysemys picta",0.53740451,0.3920554,NA,NA,27.38281,2.2583449,chrysemys picta,Chrysemys picta,FALSE, 1, 587300,FALSE,, 1
+"Clemmys guttata",0.67188989,0.3566540,NA,NA,26.09091,2.6155132,clemmys guttata,Clemmys guttata,FALSE, 1, 436621,FALSE,, 1
+"Cuora flavomarginata",0.43892679,0.4367916,NA,NA,27.75000,2.2173558,cuora flavomarginata,Cuora flavomarginata,FALSE, 1,  85384,FALSE,, 1
+"Cuora trifasciata",0.59578947,0.5439468,0.8750000,0.00000000,28.00000,2.6140645,cuora trifasciata,Cuora trifasciata,FALSE, 1,  26430,FALSE,, 1
+"Cuora zhoui",0.00000000,0.0000000,NA,NA,27.00000,0.0000000,cuora zhoui,Cuora zhoui,FALSE, 1, 711704,FALSE,, 1
+"Deirochelys reticularia",0.66800251,0.4326021,NA,NA,27.50000,2.4608038,deirochelys reticularia,Deirochelys reticularia,FALSE, 1, 848781,FALSE,, 1
+"Dermatemys mawii",0.48148148,0.5010278,NA,NA,27.33333,2.0816660,dermatemys mawii,Dermatemys mawii,FALSE, 1,  98390,FALSE,, 1
+"Dermochelys coriacea",0.44479281,0.4520076,NA,NA,29.28857,1.3894824,dermochelys coriacea,Dermochelys coriacea,FALSE, 1, 243403,FALSE,, 1
+"Emys blandingii",0.59322034,0.5417104,NA,NA,27.00000,3.5178118,emys blandingii,Emys blandingii,FALSE, 1,1013355,FALSE,, 1
+"Emys marmorata",0.54400716,0.4127209,NA,NA,28.34333,1.8313604,emys marmorata,Actinemys marmorata,FALSE, 1, 743507,TRUE,, 1
+"Emys orbicularis",0.47925422,0.4089064,0.9500000,0.00000000,28.21397,1.9574709,emys orbicularis,Emys orbicularis,FALSE, 1, 733093,FALSE,, 1
+"Eretmochelys imbricata",0.28224438,0.4035761,NA,NA,29.93958,1.4763918,eretmochelys imbricata,Eretmochelys imbricata,FALSE, 1, 430337,FALSE,, 1
+"Erymnochelys madagascariensis",0.25000000,NA,NA,NA,NA,NA,erymnochelys madagascariensis,Erymnochelys madagascariensis,FALSE, 1, 775068,FALSE,, 1
+"Geochelone elegans",0.33333333,NA,0.7500000,NA,31.50000,NA,geochelone elegans,Geochelone elegans,FALSE, 1, 302068,FALSE,, 1
+"Geochelone platynota",0.70892857,0.2702158,NA,NA,29.45000,0.7778175,geochelone platynota,Geochelone platynota,FALSE, 1, 464474,FALSE,, 1
+"Gopherus agassizii",0.48446807,0.4330257,1.0000000,NA,30.15625,2.9727583,gopherus agassizii,Gopherus agassizii,FALSE, 1, 831059,FALSE,, 2
+"Gopherus polyphemus",0.43717949,0.3735738,NA,NA,29.70000,2.6267851,gopherus polyphemus,Gopherus polyphemus,FALSE, 1, 831062,FALSE,, 1
+"Graptemys barbouri",0.50000000,0.5773503,NA,NA,28.00000,2.1602469,graptemys barbouri,Graptemys barbouri,FALSE, 1, 905270,FALSE,, 1
+"Graptemys caglei",0.72380952,0.4160199,NA,NA,28.60000,1.7102631,graptemys caglei,Graptemys caglei,FALSE, 1, 515020,FALSE,, 1
+"Graptemys geographica",0.50357293,0.4881867,NA,NA,28.00000,3.1534813,graptemys geographica,Graptemys geographica,FALSE, 1,1064023,FALSE,, 1
+"Graptemys nigrinoda",0.50000000,0.7071068,NA,NA,27.50000,3.5355339,graptemys nigrinoda,Graptemys nigrinoda,FALSE, 1, 905287,FALSE,, 1
+"Graptemys ouachitensis",0.64896101,0.4275796,NA,NA,28.04444,1.8295683,graptemys ouachitensis,Graptemys ouachitensis,FALSE, 1, 480212,FALSE,, 1
+"Graptemys pseudogeographica",0.44580031,0.4633486,NA,NA,28.35000,2.0088064,graptemys pseudogeographica,Graptemys pseudogeographica,FALSE, 1,1092200,FALSE,, 1
+"Graptemys pseudogeographica/ouachitensis",0.62775398,0.4487218,NA,NA,29.00000,4.2426407,graptemys pseudogeographica/ouachitensis,NA,NA,NA,NA,NA,NA,NA
+"Graptemys pseudogeographica/ouachitensis/geographica",0.47670000,0.4706703,NA,NA,NA,NA,graptemys pseudogeographica/ouachitensis/geographica,NA,NA,NA,NA,NA,NA,NA
+"Graptemys pulchra",0.33333333,0.5773503,NA,NA,29.00000,1.0000000,graptemys pulchra,Graptemys pulchra,FALSE, 1, 480185,FALSE,, 1
+"Graptemys versa",0.61904762,0.5408484,NA,NA,29.00000,3.6055513,graptemys versa,Graptemys versa,FALSE, 1, 922328,FALSE,, 1
+"Heosemys depressa",0.20000000,0.4472136,NA,NA,29.22000,1.7441330,heosemys depressa,Heosemys depressa,FALSE, 1, 354945,FALSE,, 1
+"Heosemys grandis",0.25641026,0.4441156,NA,NA,27.66667,2.5166115,heosemys grandis,Heosemys grandis,FALSE, 1,  54216,FALSE,, 1
+"Homopus femoralis",0.40000000,NA,NA,NA,NA,NA,homopus femoralis,Homopus femoralis,FALSE, 1, 777385,FALSE,, 1
+"Kinosternon alamosae",0.55555556,0.5018484,NA,NA,26.91667,2.7643565,kinosternon alamosae,Kinosternon alamosae,FALSE, 1, 592293,FALSE,, 1
+"Kinosternon baurii",0.37992646,0.2760100,NA,NA,26.40625,3.0343519,kinosternon baurii,Kinosternon baurii,FALSE, 1, 487669,FALSE,, 1
+"Kinosternon creaseri",0.25417440,0.2437280,NA,NA,25.92857,2.2808728,kinosternon creaseri,Kinosternon creaseri,FALSE, 1, 270865,FALSE,, 1
+"Kinosternon flavescens",0.45769795,0.3741223,NA,NA,27.78571,2.9135907,kinosternon flavescens,Kinosternon flavescens,FALSE, 1, 487667,FALSE,, 1
+"Kinosternon hirtipes",0.79166667,0.3857584,NA,NA,26.12500,2.9368350,kinosternon hirtipes,Kinosternon hirtipes,FALSE, 1, 487665,FALSE,, 1
+"Kinosternon leucostomum",0.31383496,0.2445782,NA,NA,26.35294,2.5172201,kinosternon leucostomum,Kinosternon leucostomum,FALSE, 1, 608602,FALSE,, 1
+"Kinosternon scorpioides",0.57867742,0.3827943,NA,NA,26.14286,2.4994505,kinosternon scorpioides,Kinosternon scorpioides,FALSE, 1, 969338,FALSE,, 1
+"Kinosternon sonoriense",0.56421120,0.4711276,NA,NA,27.64286,3.1716752,kinosternon sonoriense,Kinosternon sonoriense,FALSE, 1, 944913,FALSE,, 1
+"Kinosternon stejnegeri",0.53231167,0.3798670,NA,NA,28.00000,2.8284271,kinosternon stejnegeri,Kinosternon stejnegeri,FALSE, 1, 487671,FALSE,, 1
+"Kinosternon subrubrum",0.48508049,0.3530113,NA,NA,25.69231,3.0106648,kinosternon subrubrum,Kinosternon subrubrum,FALSE, 1, 487664,FALSE,, 1
+"Lepidochelys kempii",0.26160749,0.3007459,NA,NA,31.31667,0.7116437,lepidochelys kempii,Lepidochelys kempii,FALSE, 1, 587328,FALSE,, 1
+"Lepidochelys olivacea",0.54465005,0.4216664,NA,NA,29.98229,2.3020981,lepidochelys olivacea,Lepidochelys olivacea,FALSE, 1, 430320,FALSE,, 1
+"Macrochelys temminckii",0.30991181,0.2988680,NA,NA,26.60526,2.6277311,macrochelys temminckii,Macrochelys temminckii,FALSE, 1,1084896,FALSE,, 1
+"Malaclemys terrapin",0.57175056,0.4699043,1.0000000,NA,28.24608,2.5046525,malaclemys terrapin,Malaclemys terrapin,FALSE, 1,1064070,FALSE,, 1
+"Malacochersus tornieri",0.73333333,0.4320494,NA,NA,28.78333,2.0004166,malacochersus tornieri,Malacochersus tornieri,FALSE, 1,1041246,FALSE,, 1
+"Malayemys macrocephala",0.50946409,0.2466134,0.8000000,0.00000000,29.00000,2.6832816,malayemys macrocephala,Malayemys macrocephala,FALSE, 1, 935350,FALSE,, 1
+"Manouria emys",0.50000000,0.5773503,NA,NA,27.96250,2.4700253,manouria emys,Manouria emys,FALSE, 1, 829105,FALSE,, 1
+"Manouria impressa",0.66666667,0.5163978,NA,NA,26.84167,1.3162130,manouria impressa,Manouria impressa,FALSE, 1, 679465,FALSE,, 1
+"Mauremys annamensis",0.69444444,0.4762897,NA,NA,27.16667,2.3166067,mauremys annamensis,Mauremys annamensis,FALSE, 1,  85372,FALSE,, 1
+"Mauremys japonica",0.66768546,0.4107390,0.9000000,0.00000000,26.95833,3.0559802,mauremys japonica,Mauremys japonica,FALSE, 1,  26434,FALSE,, 1
+"Mauremys mutica",0.43105071,0.3737350,NA,NA,27.83333,2.6911753,mauremys mutica,Mauremys mutica,FALSE, 1, 679467,FALSE,, 1
+"Mauremys nigricans",0.66666667,0.5773503,NA,NA,27.33333,2.5166115,mauremys nigricans,Mauremys nigricans,FALSE, 1, 591393,FALSE,, 2
+"Mauremys reevesii",0.52191718,0.3779790,0.8200000,0.00000000,28.43655,2.5341542,mauremys reevesii,Mauremys reevesii,FALSE, 1, 829098,FALSE,, 1
+"Mauremys sinensis",0.44135802,0.4877676,NA,NA,28.83333,3.0605010,mauremys sinensis,Mauremys sinensis,FALSE, 1, 879764,FALSE,, 1
+"Melanochelys trijuga",0.28680445,0.2575770,NA,NA,26.90000,2.1767365,melanochelys trijuga,Melanochelys trijuga,FALSE, 1, 105484,FALSE,, 1
+"Natator depressus",0.62038826,0.4646831,NA,NA,29.55365,1.2073920,natator depressus,Natator depressus,FALSE, 1, 895624,FALSE,, 1
+"Pelomedusa subrufa",0.20924680,0.3332698,NA,NA,29.15000,3.3915530,pelomedusa subrufa,Pelomedusa subrufa,FALSE, 1, 775044,FALSE,, 2
+"Peltocephalus dumerilianus",0.68750000,0.1641498,NA,NA,30.16000,NA,peltocephalus dumerilianus,Peltocephalus dumerilianus,FALSE, 1, 540332,FALSE,, 1
+"Pelusios broadleyi",0.38750000,0.3799671,NA,NA,29.00000,2.3452079,pelusios broadleyi,Pelusios broadleyi,FALSE, 1, 419111,FALSE,, 1
+"Pelusios castaneus",0.20588235,0.4117647,NA,NA,28.75000,3.5000000,pelusios castaneus,Pelusios castaneus,FALSE, 1, 394412,FALSE,, 2
+"Podocnemis erythrocephala",0.67500000,0.3755243,NA,NA,28.64500,1.6334167,podocnemis erythrocephala,Podocnemis erythrocephala,FALSE, 1, 674543,FALSE,, 1
+"Podocnemis expansa",0.45978307,0.3316315,0.9055733,0.03666436,32.25483,2.2244585,podocnemis expansa,Podocnemis expansa,FALSE, 1, 709468,FALSE,, 1
+"Podocnemis lewyana",0.45547364,0.4122782,NA,NA,32.35000,1.9751231,podocnemis lewyana,Podocnemis lewyana,FALSE, 1, 211855,FALSE,, 1
+"Podocnemis sextuberculata",0.44434524,0.3350683,NA,NA,31.26000,1.1802542,podocnemis sextuberculata,Podocnemis sextuberculata,FALSE, 1, 674547,FALSE,, 1
+"Podocnemis unifilis",0.54201496,0.2750756,NA,NA,30.34643,1.6046120,podocnemis unifilis,Podocnemis unifilis,FALSE, 1, 528625,FALSE,, 1
+"Pseudemys concinna",0.57208876,0.4634397,NA,NA,27.21579,3.0770229,pseudemys concinna,Pseudemys concinna,FALSE, 1,1003485,FALSE,, 1
+"Pseudemys floridana",0.55926794,0.4815446,NA,NA,27.71429,2.1380899,pseudemys floridana,Pseudemys concinna floridana,FALSE, 1, 448198,TRUE,infraspecific, 1
+"Pseudemys nelsoni",0.49917763,0.4355407,NA,NA,28.50000,1.2909944,pseudemys nelsoni,Pseudemys nelsoni,FALSE, 1, 526264,FALSE,, 1
+"Pseudemys texana",0.46666667,0.5033223,NA,NA,29.33333,1.5275252,pseudemys texana,Pseudemys texana,FALSE, 1, 981321,FALSE,, 1
+"Pyxis planicauda",0.34803922,0.4379812,0.8500000,0.00000000,28.50000,NA,pyxis planicauda,Pyxis planicauda,FALSE, 1, 859765,FALSE,, 1
+"Rhinoclemmys areolata",0.49506803,0.4194805,NA,NA,27.00000,2.4494897,rhinoclemmys areolata,Rhinoclemmys areolata,FALSE, 1, 727052,FALSE,, 1
+"Rhinoclemmys pulcherrima",0.81250000,0.3750000,NA,NA,26.50000,2.6457513,rhinoclemmys pulcherrima,Rhinoclemmys pulcherrima,FALSE, 1, 203569,FALSE,, 1
+"Sternotherus carinatus",0.36923783,0.4435683,NA,NA,26.54545,2.6500429,sternotherus carinatus,Sternotherus carinatus,FALSE, 1, 106549,FALSE,, 1
+"Sternotherus minor",0.16922545,0.2869054,NA,NA,26.67647,3.2593192,sternotherus minor,Sternotherus minor,FALSE, 1, 828705,FALSE,, 1
+"Sternotherus odoratus",0.26727437,0.3633779,NA,NA,26.28696,2.9770798,sternotherus odoratus,Sternotherus odoratus,FALSE, 1, 487672,FALSE,, 1
+"Stigmochelys pardalis",0.36250000,0.4446106,NA,NA,29.39375,1.2695436,stigmochelys pardalis,Stigmochelys pardalis,FALSE, 1, 776504,FALSE,, 1
+"Terrapene carolina",0.58339792,0.3508374,NA,NA,26.24000,2.8508771,terrapene carolina,Terrapene carolina,FALSE, 1, 848786,FALSE,, 1
+"Terrapene ornata",0.60000000,0.5477226,NA,NA,25.40000,3.5249113,terrapene ornata,Terrapene ornata,FALSE, 1,1013359,FALSE,, 1
+"Testudo graeca",0.67010393,0.4129157,0.8000000,0.00000000,29.61250,2.1989852,testudo graeca,Testudo graeca,FALSE, 1, 207423,FALSE,, 2
+"Testudo hermanni",0.60243838,0.4420754,NA,NA,29.50000,3.4278273,testudo hermanni,Testudo hermanni,FALSE, 1, 207422,FALSE,, 1
+"Testudo kleinmanni",1.00000000,NA,NA,NA,30.00000,NA,testudo kleinmanni,Testudo kleinmanni,FALSE, 1, 344624,FALSE,, 1
+"Trachemys callirostris",0.17851852,0.2329603,NA,NA,30.42500,1.4908052,trachemys callirostris,Trachemys dorbigni,FALSE, 1, 735232,TRUE,, 2
+"Trachemys decorata",0.44444444,0.5018484,NA,NA,28.16667,2.8577380,trachemys decorata,Trachemys decorata,FALSE, 1, 608023,FALSE,, 1
+"Trachemys dorbigni",0.70731707,0.4606464,NA,NA,NA,NA,trachemys dorbigni,Trachemys dorbigni,FALSE, 1, 735232,FALSE,, 1
+"Trachemys scripta",0.47764746,0.4194938,0.7968750,0.03859512,28.34875,1.4226353,trachemys scripta,Trachemys scripta,FALSE, 1, 725741,FALSE,, 1
+"Trachemys venusta",0.33007523,0.3629771,NA,NA,28.34444,1.7118054,trachemys venusta,Trachemys venusta,FALSE, 1, 996196,FALSE,, 3
