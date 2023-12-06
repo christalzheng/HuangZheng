@@ -1,0 +1,57 @@
+---
+title: "Temperature_Sex_Ratio_Relationship"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(ggplot2)
+
+Cleaned_Data <- read.csv(here("Processed/Cleaned_Data.csv"), 
+                         stringsAsFactors = TRUE)
+Data_Families<- read.csv(here("Processed/Data_Families.csv"), 
+         stringsAsFactors = TRUE)
+theme_yh <- theme_classic(base_size = 14) + 
+  theme(axis.text = element_text(color = "black"),
+  legend.position = "right",
+  legend.text = element_text(size = 10),
+  legend.title = element_text(size = 11),
+  plot.title = element_text(size = rel(1.5)),
+  axis.text.x = element_text(angle = 75, vjust = 1, hjust=1))
+```
+
+## Visualization
+```{r scatter plot}
+Data_omit <- filter(Cleaned_Data, !is.na(Cleaned_Data$Mean_Temp))
+ggplot(Data_omit, aes(x = Mean_Temp, y = Proportion_Male)) + 
+  geom_point() + geom_smooth(method=lm , color="red", se=TRUE) +
+  theme_yh + labs(x = expression("Hatching Temperature ("*~degree*C*")"), 
+                  y = "Sex Ratio", title = "Scatter plot of temperature vs sex ratio")
+```
+Though there seems to have a linear trend, we can't be certain. Therefore, linear regression analysis is still needed. 
+
+## Linear regression
+
+```{r lm, echo=FALSE}
+tempSex.regression <- lm(
+  data = Data_omit,
+  Proportion_Male ~ Mean_Temp)
+summary(tempSex.regression)
+
+par(mfrow = c(2,2), mar=c(4,4,4,4))
+plot(tempSex.regression)
+```
+We assured that temperature has a great impact on Sex ratio i.e. Male Proportion (P < 0.01).
+
+## Bubble plot
+We also want to visualize the impact of temperature on sex ratio among species. Bubble plot seems to be a great option.
+
+```{r bubble plot, echo=FALSE, fig.height=5, fig.width=6}
+Data_family_temp <- select(Data_omit, Family, Mean_Temp, Proportion_Male)
+ggplot(Data_family_temp, aes(x=Family, y=Mean_Temp, size = Proportion_Male, color = Family)) +
+    geom_point(alpha=0.6) + scale_color_brewer(palette="Set3") + theme_yh +
+  labs(y = expression("Hatching Temperature ("*~degree*C*")")) + 
+  scale_size(name="Sex ratio")
+```
+We can see that the impact of temperature on sex ratio exist among most of the families. 

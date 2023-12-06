@@ -8,6 +8,7 @@ output:
 ---
 
 ## Set up and Data Wrangling
+
 ```{r setup, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(here)
@@ -24,9 +25,11 @@ theme_yh <- theme_classic(base_size = 14) +
   axis.text.x = element_text(angle = 75, vjust = 1, hjust=1))
 ```
 
-## Explore the species 
+## Explore the species
+
 ### Phylogenetic tree
-We used a "rotl" package to interact with the Open Tree of Life data (https://doi.org/10.1111/2041-210X.12593). First, we need to change the name of the species into something compatible with the package.
+
+We used a "rotl" package to interact with the Open Tree of Life data (<https://doi.org/10.1111/2041-210X.12593>). First, we need to change the name of the species into something compatible with the package.
 
 ```{r generate phylogenetic tree, fig.height=10, fig.width=6, warning=FALSE}
 Cleaned_Data$Species_names <- as.character(Cleaned_Data$Species)  # Convert factors to characters
@@ -61,7 +64,8 @@ plot(collaped_tree, cex = .5, label.offset = .1, no.margin = TRUE)
 ```
 
 ### Tree map
-Because there are too many species, the plot looks very messy...Then we can try to make a treemap instead (https://r-graph-gallery.com/236-custom-your-treemap.html).
+
+Because there are too many species, the plot looks very messy...Then we can try to make a treemap instead (<https://r-graph-gallery.com/236-custom-your-treemap.html>).
 
 ```{r treemap}
 library(ggplot2)
@@ -101,10 +105,13 @@ saveWidget(interactive_tree, file=paste0(here(), "/Processed/interactiveTreemap.
 From the tree maps (ggplot map and interactive tree map) we can see that all of the species are within Testudines Order. The most abundant family is Cheloniidae, Emydidae and Chelydridae. The species we have most in our database is Common snapping turtle (Chelydra serpentina) and Green sea turtle (Chelonia mydas) with a occurrence of 1123 and 881 records.
 
 ### Basic statistics about species
+
 We will explore sex ratio and temperature data for different species respectively.
 
 #### Sex ratio among families
+
 First, we need to filter the data because we have too many species. Let's only focus on family level.
+
 ```{r stats}
 ggplot(Cleaned_Data, aes(x = Family, y = Proportion_Male, 
                       fill = Family, 
@@ -115,6 +122,7 @@ ggplot(Cleaned_Data, aes(x = Family, y = Proportion_Male,
 ```
 
 We want to explore whether there are significant difference in sex ratio between different families. We can use One-way ANOVA to analyse the data. First, we need to check the normality.
+
 ```{r anova family vs sex ratio normality check}
 # check the normality of the data
 shapiro.test(Cleaned_Data$Proportion_Male[Cleaned_Data$Family == "Carettochelyidae"])
@@ -131,12 +139,14 @@ shapiro.test(Cleaned_Data$Proportion_Male[Cleaned_Data$Family == "Testudinidae"]
 shapiro.test(Cleaned_Data$Proportion_Male[Cleaned_Data$Family == "Trionychidae"])
 
 ```
+
 Apart from Dermatemydidae and Trionychida, all data follows a normal distribution. We then check equality of variance.
 
 ```{r test for equal variance}
 bartlett.test(Cleaned_Data$Proportion_Male, Cleaned_Data$Family)
 ```
-We can reject the null (P = 3.903e-08) i.e. variances are not equal. 
+
+We can reject the null (P = 3.903e-08) i.e. variances are not equal.
 
 ```{r anova test}
 family.sex.anova <- aov(data = Cleaned_Data, Proportion_Male ~ Family)
@@ -145,7 +155,7 @@ plot(family.sex.anova)
 TukeyHSD(family.sex.anova)
 ```
 
-From the results, we can see that there is a significant difference in sex ratio among families. Emydidae-Cheloniidae, Emydidae-Chelydridae and Pelomedusidae-Emydidae are the groups that show significant difference (p < 0.05). 
+From the results, we can see that there is a significant difference in sex ratio among families. Emydidae-Cheloniidae, Emydidae-Chelydridae and Pelomedusidae-Emydidae are the groups that show significant difference (p \< 0.05).
 
 #### Temperature among families
 
@@ -157,6 +167,7 @@ ggplot(Cleaned_Data, aes(x = Family, y = Mean_Temp,
   scale_fill_brewer(palette="Set3") + 
   labs(x = "Family Names", y = expression("Hatching Temperature ("*~degree*C*")")) 
 ```
+
 Hatching temperature among all the families are around 25 - 35 degree Celsius. Emydidae has a high variance of hatching temperature for different individuals or communities. We want to see whether there is significant difference in Hatching temperature among families. Let's check normality first.
 
 ```{r normality family vs temp}
@@ -173,12 +184,14 @@ shapiro.test(Cleaned_Data$Mean_Temp[Cleaned_Data$Family == "Podocnemididae"])
 shapiro.test(Cleaned_Data$Mean_Temp[Cleaned_Data$Family == "Testudinidae"])
 # shapiro.test(Cleaned_Data$Mean_Temp[Cleaned_Data$Family == "Trionychidae"]) Trionychidae doesn't have enough data (n<3) so we can just delete it.
 ```
-The null hypothesis of Cheloniidae, Chelydridae, Dermochelyidae, Emydidae, Geoemydidae, Kinosternidae can be rejected. 
+
+The null hypothesis of Cheloniidae, Chelydridae, Dermochelyidae, Emydidae, Geoemydidae, Kinosternidae can be rejected.
 
 ```{r test for equal variance}
 bartlett.test(Cleaned_Data$Mean_Temp, Cleaned_Data$Family)
 ```
-We can reject the null (P = <2.2e-16) i.e. variances are not equal. 
+
+We can reject the null (P = \<2.2e-16) i.e. variances are not equal.
 
 ```{r anova test}
 family.temp.anova <- aov(data = Cleaned_Data, Mean_Temp ~ Family)
@@ -186,11 +199,14 @@ summary(family.temp.anova)
 plot(family.temp.anova)
 TukeyHSD(family.temp.anova)
 ```
-There is significant difference in hatching temperature among families (F = 184.5, P <2e-16). 
+
+There is significant difference in hatching temperature among families (F = 184.5, P \<2e-16).
 
 \newpage
+
 ## Explore data position
-sorce: https://hub.arcgis.com/datasets/COAGIS::world-continents/explore?location=-0.634214%2C0.000000%2C2.09
+
+sorce: <https://hub.arcgis.com/datasets/COAGIS>::world-continents/explore?location=-0.634214%2C0.000000%2C2.09
 
 ```{r map}
 library(sf)
