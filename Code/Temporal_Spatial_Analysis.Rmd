@@ -10,8 +10,84 @@ library(sf)
 library(here)
 ```
 
-## Spatial Analysis
+## Other factors
+noisy scatter plot -> other factors impact sex ratio -> explore what might the best set of factors that influence sex ratio
 
+### temporal
+```{r time lm}
+# Year
+Cleaned_Data_omit <- filter(Cleaned_Data, !is.na(Cleaned_Data$End_Date))
+Cleaned_Data_omit$End_Date <- as.Date(Cleaned_Data_omit$End_Date)
+Cleaned_Data_omit$Year <- as.numeric(format(Cleaned_Data_omit$End_Date, "%Y"))
+# data are mainly between 1980 - 2020
+Cleaned_Data_omit <- filter(Cleaned_Data_omit, Year >= 1980 & Year <= 2020)
+
+# lm
+temp_lm <- lm(data = Cleaned_Data_omit, Proportion_Male ~ Year)
+summary(temp_lm)
+
+# visualize
+ggplot(Cleaned_Data_omit, aes(x = Year, y = Proportion_Male)) + 
+  geom_point() + 
+  geom_smooth(method=lm , color="blue", se=TRUE) +
+  theme_yh + 
+  labs(x = "Time", y = "Sex Ratio", title = "Scatter plot of time vs sex ratio")
+
+# Month
+Cleaned_Data_omit$Month <- factor(format(Cleaned_Data_omit$End_Date, "%B"), levels = month.name)
+
+# North
+Cleaned_Data_North <- filter(Cleaned_Data_omit, Latitude > 0)
+ggplot(Cleaned_Data_North, aes(x = Month, y = Proportion_Male)) +
+  geom_boxplot(fill = "lightblue") +
+  theme_minimal() +
+  labs(x = "Month", y = "Sex Ratio", title = "Boxplot of sex ratio by month")
+
+# South
+Cleaned_Data_South <- filter(Cleaned_Data_omit, Latitude < 0)
+ggplot(Cleaned_Data_South, aes(x = Month, y = Proportion_Male)) +
+  geom_boxplot(fill = "lightblue") +
+  theme_minimal() +
+  labs(x = "Month", y = "Sex Ratio", title = "Boxplot of sex ratio by month")
+
+```
+
+Year: increasing trend (unintuitive) but only explain 1.4955% data
+Month: 
+
+Year:
+
+Provides a coarser level of temporal information, focusing on the year component only.
+Useful for capturing longer-term trends and seasonality.
+Month:
+
+Captures seasonality by focusing on the month component only.
+Can be particularly useful if there are recurring patterns or trends associated with specific months.
+
+
+
+the trend between time and sex ratio may be confounded by the trend between time and temperature -> multiple regression
+
+Run an AIC to determine what set of explanatory variables (year4, daynum, depth) is best suited to influence sex ratio.
+```{r multi factors}
+# for all factors
+# remove all NA
+Cleaned_Data_remove <- Cleaned_Data_omit %>% 
+  filter(!is.na(End_Date)) %>% 
+  filter(!is.na(Humidity)) 
+
+AIC <- lm(data = Cleaned_Data_remove, Proportion_Male ~ Mean_Temp + End_Date + Humidity + Captive)
+step(AIC)
+
+```
+
+
+Best: lm(formula = Proportion_Male ~ Mean_Temp, data = Cleaned_Data_remove)
+
+
+limit amount of data (few humidity data)
+
+## Spatial Analysis
 high proportion of female appears near equator
 
 ```{r Spatial}
@@ -36,12 +112,4 @@ ggplot() +
    # size = 3,
     #check_overlap = TRUE,
     #hjust = 1.4)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-
 ```

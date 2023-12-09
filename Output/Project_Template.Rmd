@@ -1,67 +1,182 @@
 ---
 title: "Determinants Influencing the Sex Ratio of Turtle Offspring"
+subtitle: "https://github.com/christalzheng/HuangZheng"
 author: "Yuechen Huang; Shiqi Zheng"
 date: "Fall 2023"
-output:
-  html_document:
-    df_print: paged
+output: pdf_document
 toc: yes
 ---
 \newpage
+![A cute baby sea turtle](~/Desktop/ENV872/EDE_Fall2023/HuangZheng_GroupProject/Output/Baby Sea Turtles.jpeg){width="30%"}
+
 \tableofcontents 
-\newpage
 \listoftables 
-\newpage
 \listoffigures 
+
 \newpage
 
 ```{r setup, include=FALSE}
 # Set your working directory
+setwd("~/Desktop/ENV872/EDE_Fall2023/HuangZheng_GroupProject")
 
 # Load your packages
+library(tidyverse)
+library(here)
+library(lubridate)
+library(rotl)
+library(sf)
+library(mapview); mapviewOptions(fgb = FALSE)
 
 # Set your ggplot theme
+theme_yh <- theme_classic(base_size = 14) + 
+  theme(axis.text = element_text(color = "black"),
+  legend.position = "right",
+  legend.text = element_text(size = 10),
+  legend.title = element_text(size = 11),
+  plot.title = element_text(size = rel(1.5)),
+  axis.text.x = element_text(angle = 75, vjust = 1, hjust=1))
 
 # Load your datasets
-
+Database <- read.csv(here("Raw/ROSIE/Database.csv"), stringsAsFactors = TRUE)
 ```
 
+```{r data wrangling, include=FALSE}
+cleaned_data <- Database %>% 
+  filter(is.na(Chemical_Concentration)) %>% # don't want chemical treatment
+  filter(!is.na(Proportion_Male)) %>% # we want to rows that have proportion_male data
+  filter(SDM == 'TSD') %>% # we want to focus on turtles that are TSD
+  select(Order, Family, Genus, Species, 
+         Mean_Temp,Mean_Temp_SD, 
+         Latitude, Longitude, Captive, Humidity, 
+         First_Year, First_Month, Last_Year, Last_Month,
+         Proportion_Male, Proportion_Female) 
+  # the term "sex-ratio" is misleading -> abondon, just use male proportion
+  #mutate(Sex_ratio = Proportion_Male / Proportion_Female) %>% 
+ # mutate(Sex_ratio = ifelse(is.infinite(Sex_ratio), 1, Sex_ratio)) %>% # 0/1 -> 0 - all female, 1 -> female = male, 1/0 -> infinite -> all male
+  # filter(!is.nan(Sex_ratio)) # we found there are some NaN and infinite data in sex ratio column, we may need to filter these data out  
+
+# Deal with date
+cleaned_data$Start_Date <- as.Date(paste(cleaned_data$First_Year, 
+                                         cleaned_data$First_Month,
+                                         "01", sep = "-"))
+cleaned_data$End_Date <- as.Date(paste(cleaned_data$Last_Year, 
+                                         cleaned_data$Last_Month,
+                                         "01", sep = "-"))
+
+# re-select column we need
+cleaned_data <- select(cleaned_data, Order, Family, Genus, Species,
+                       Mean_Temp,Mean_Temp_SD,
+                       Latitude, Longitude, Captive, Humidity, 
+                       Start_Date, End_Date, Proportion_Male, Proportion_Female)
+
+# create a cleaned data in processed folder
+write.csv(cleaned_data, file = here("Processed/Cleaned_Data.csv"), row.names = FALSE)
+
+Cleaned_Data <- read.csv(here("Processed/Cleaned_Data.csv"), 
+                         stringsAsFactors = TRUE)
+```
 
 # Rationale and Research Questions
 
+In the majority of species, sex is determined during fertilization; however, many reptiles including turtles, alligators, and crocodiles exhibit a unique characteristic where sex determination occurs after fertilization. This phenomenon is known as temperature-dependent sex determination (TSD). In TSD, the sex of offspring is influenced by the temperatures experienced during egg incubation in the nest.
 
+Our project is motivated by a keen interest in understanding TSD, particularly in turtles. While TSD was first described in a lizard, the order Testudines has played an important role in advancing scientists' understanding of TSD. Studies on species within Testudines brought TSD to the attention of the broader research community, and the term "temperature-dependent sex determination" also first appeared in a study of a community of North American turtles in 1979 (Yntema, 1976; Bull and Vogt, 1979).
 
-\newpage
+We aim to test TSD phenomenon by ourselves with focusing on the order Testudines. We will explore the following questions: 1. Does temperature affect the sex ratio of turtles? If so, how does temperature influence the sex ratio of turtles? 2. Is temperature the sole determinant of turtle sex, or are there other important factors?
 
 # Dataset Information
 
+We use a dataset called Reptilian Offspring Sex and Incubation Environment (ROSIE). It is a dataset published in 2022 and contain over 7,000 individual measurements of offspring sex ratios in the order Testudines as well as SDM classifications for 149 species. This dataset obtain data by using Web of Science to search for research published since the discovery of TSD (1966) until 31 December 2020.
 
+Variables we used and wrangled for this project is shown in Table 1. More information about ROSIE Dataset can be found at: <https://github.com/calebkrueger/ROSIE/tree/main>
+
+## Table: Dataset Information
+
+| Used Variables      | Description                                                                            |
+|:-----------------------------------|:-----------------------------------|
+| Species information | Order, Family, Genus, Species                                                          |
+| Spatial information | Wild sampling location, or native range of species if captive or location not provided |
+| Captivity           | Eggs from captive or/and wild individuals                                              |
+| Time                | Time of turtle nesting/egg collection                                                  |
+| Temperature         | Mean of actual/recorded incubator temperature in degrees Celsius                       |
+| Humidity            | Relative humidity of incubation chamber between 0 and 1                                |
+| Sex ratio           | Proportion of male and female                                                          |
 
 \newpage
 
-# Exploratory Analysis 
+# Exploratory Analysis
 
+To have a better understanding of our data, we explore the distribution of different turtle species, variations in hatching temperatures across diverse turtle families, and distribution of data location.
 
+## Explore the species
+
+## Explore hatching temperature among families
+
+## Explore data position
+The location of wild sampling points, or native range of species if captive, is plotted below as a map to show spatial distribution of data. The world continent data is downloaded from ArcGIS database.
+
+```{r explore location 1, include=FALSE}
+# load data
+world_continent<- st_read(here('Raw/World_Continents/World_Continents.shp')) 
+data_sf <- cleaned_data %>%
+  filter(!is.na(cleaned_data$Longitude)) %>% 
+  st_as_sf(coords = c('Longitude','Latitude'),
+          crs=4326) #WGS84
+```
+
+```{r explore location, echo=FALSE, fig.cap="Spatial distribution of data"}
+# select data
+wild_data_sf <- data_sf %>%
+  filter(Captive=='0')
+captive_data_sf <- data_sf %>%
+  filter(Captive=='1')
+other_data_sf <- data_sf %>%
+  filter(is.na(Captive))
+  
+# plot map
+#mapview(world_continent,col.regions='grey', alpha.regions = 0.3)+
+  #mapview(wild_data_sf,col.regions='blue', alpha=0.1 , cex =5, layer.name='Wild')+
+  #mapview(captive_data_sf,col.regions='red',alpha = 0.1, cex =5, layer.name='Captive')
+
+ggplot()  +
+  geom_sf(data = world_continent, aes(fill='grey'),show.legend = "polygon") +
+  geom_sf(data = wild_data_sf, aes(color='blue'), alpha=0.1, cex =3, show.legend = "point") +
+  geom_sf(data = captive_data_sf, aes(color='red'), alpha=0.1 , cex =3,show.legend = "point") +
+ #geom_sf(data = other_data_sf, aes(color='darkgrey'), alpha=0.1 , cex =3, show.legend = "point")+
+  labs(title = "Distribution of data") +
+  scale_fill_manual(labels = c("World Continent"),
+                    name = NULL,
+                    values = c("grey" = 'grey'), 
+                    guide = guide_legend(override.aes = list(linetype = "blank", shape = NA))) +
+  scale_colour_manual(name = "Data Type",
+                      labels = c("Wild","Captive", "Other"),
+                      values = c("blue" = "blue",'red'='red', 'darkgrey'='darkgrey'),
+                      guide = guide_legend(override.aes = list(linetype =  "blank"), 
+                                                               shape = c(16, NA))) 
+```
 
 \newpage
 
 # Analysis
 
+## Question 1: \<insert specific question here and add additional subsections for additional questions below, if needed\>
 
-
-## Question 1: <insert specific question here and add additional subsections for additional questions below, if needed>
-
-## Question 2: 
-
-
-
+## Question 2:
 
 \newpage
 
 # Summary and Conclusions
 
+"Researchers have also noted that the warmer the sand, the higher the ratio of female turtles. As the Earth experiences climate change, increased temperatures could result in skewed and even lethal incubation conditions, which would impact turtle species and other reptiles." <https://oceanservice.noaa.gov/facts/temperature-dependent.html>
 
 \newpage
 
 # References
-<add references here if relevant, otherwise delete this section> 
+
+Bull, J. J., & Vogt, R. C. (1979). Temperature-dependent sex determination in turtles. Science, 1186-1188.
+
+Krueger, C. J., & Janzen, F. J. (2022). ROSIE, a database of reptilian offspring sex ratios and sex-determining mechanisms, beginning with Testudines. Scientific Data, 9(1), 22.
+
+Yntema, C. L. (1976). Effects of incubation temperatures on sexual differentiation in the turtle, Chelydra serpentina. Journal of Morphology, 150(2), 453-461.
+
+Photo credit: <https://scitechdaily.com/why-does-temperature-determine-the-sex-of-turtles/> <https://www.pinterest.jp/pin/61783826112891810/>
