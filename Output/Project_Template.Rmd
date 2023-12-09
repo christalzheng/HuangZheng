@@ -34,7 +34,7 @@ theme_yh <- theme_classic(base_size = 14) +
   axis.text.x = element_text(angle = 75, vjust = 1, hjust=1))
 
 # Load your datasets
-Database <- read.csv(here("Raw/ROSIE/Database.csv"), stringsAsFactors = TRUE)
+Database <- read.csv(here("Data/Raw/ROSIE/Database.csv"), stringsAsFactors = TRUE)
 ```
 
 ```{r data wrangling, include=FALSE}
@@ -67,9 +67,9 @@ cleaned_data <- select(cleaned_data, Order, Family, Genus, Species,
                        Start_Date, End_Date, Proportion_Male, Proportion_Female)
 
 # create a cleaned data in processed folder
-write.csv(cleaned_data, file = here("Processed/Cleaned_Data.csv"), row.names = FALSE)
+write.csv(cleaned_data, file = here("Data/Processed/Cleaned_Data.csv"), row.names = FALSE)
 
-Cleaned_Data <- read.csv(here("Processed/Cleaned_Data.csv"), 
+Cleaned_Data <- read.csv(here("Data/Processed/Cleaned_Data.csv"), 
                          stringsAsFactors = TRUE)
 ```
 
@@ -79,25 +79,28 @@ In the majority of species, sex is determined during fertilization; however, rep
 
 Our project is motivated by a keen interest in understanding TSD, particularly in turtles. While TSD was first described in a lizard, the order Testudines has played an important role in advancing scientists' understanding of TSD. Studies on species within Testudines brought TSD to the attention of the broader research community, and the term "temperature-dependent sex determination" also first appeared in a study of a community of North American turtles in 1979 (Yntema, 1976; Bull and Vogt, 1979).
 
-We aim to test the TSD phenomenon by ourselves with a focus on the order Testudines. We will explore the following questions: 1. Does temperature affect the sex ratio of turtles? If so, how does temperature influence the sex ratio of turtles? 2. Is temperature the sole determinant of turtle sex, or are there other important factors?
+We aim to test the TSD phenomenon by ourselves with a focus and thus choose to investigate a dataset containing plenty sex ratio information for the order Testudines. We will explore the following questions: 1. Does temperature affect the sex ratio of turtles? If so, how does temperature influence the sex ratio of turtles? 2. Is temperature the sole determinant of turtle sex, or are there other important factors?
+
 
 # 2  Dataset Information
 
 We use a dataset called Reptilian Offspring Sex and Incubation Environment (ROSIE). It is a dataset published in 2022 and contains over 7,000 individual measurements of offspring sex ratios in the order Testudines as well as SDM classifications for 149 species. This dataset obtained data by using the Web of Science to search for research published since the discovery of TSD (1966) until 31 December 2020.
 
+We processed the original dataset by omitting all data has been chemical treatment, selecting all TSD type data, all point contains male proportion data, converting date value to date object, and selecting all species information, mean temperature, latitude, longitude, captive, humidity, start date, end date, proportion male, and proportion female as the variables we will explore with.
+
 Variables we used and wrangled for this project are shown in Table 1. More information about the ROSIE Dataset can be found at: <https://github.com/calebkrueger/ROSIE/tree/main>
 
-Table: Dataset Information
+Table: Summary of Dataset
 
-| Used Variables      | Description                                                                            |
+| Used Variables      | Details                                                                            |
 |:-----------------------------------|:-----------------------------------|
 | Species information | Order, Family, Genus, Species                                                          |
-| Spatial information | Wild sampling location, or native range of species if captive or location not provided |
-| Captivity           | Eggs from captive or/and wild individuals                                              |
-| Time                | Time of turtle nesting/egg collection                                                  |
+| Spatial information | Wild sampling location, or native range of species if captive or location not provided, Provided in average latitude and longitude|
+| Captivity           | Eggs from captive or/and wild individuals, 0 - wild and 1 - captive                    |
+| Time                | Time of turtle nesting/egg collection. Provided in start date and end date                                                  |
 | Temperature         | Mean of actual/recorded incubator temperature in degrees Celsius                       |
 | Humidity            | Relative humidity of incubation chamber between 0 and 1                                |
-| Sex ratio           | Proportion of male                                                                     |
+| Sex ratio           | Proportion of male,                                                                    |
 
 \newpage
 
@@ -115,7 +118,7 @@ The location of wild sampling points, or the native range of species if captive,
 
 ```{r explore location 1, include=FALSE}
 # load data
-world_continent<- st_read(here('Raw/World_Continents/World_Continents.shp')) 
+world_continent<- st_read(here('Data/Raw/World_Continents/World_Continents.shp')) 
 data_sf <- cleaned_data %>%
   filter(!is.na(cleaned_data$Longitude)) %>% 
   st_as_sf(coords = c('Longitude','Latitude'),
