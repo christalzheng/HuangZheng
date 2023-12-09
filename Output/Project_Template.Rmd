@@ -16,9 +16,6 @@ toc: yes
 \newpage
 
 ```{r setup, include=FALSE}
-# Set your working directory
-setwd("~/Desktop/ENV872/EDE_Fall2023/HuangZheng_GroupProject")
-
 # Load your packages
 library(tidyverse)
 library(here)
