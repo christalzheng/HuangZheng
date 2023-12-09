@@ -73,21 +73,21 @@ Cleaned_Data <- read.csv(here("Processed/Cleaned_Data.csv"),
                          stringsAsFactors = TRUE)
 ```
 
-# Rationale and Research Questions
+# 1  Rationale and Research Questions
 
-In the majority of species, sex is determined during fertilization; however, many reptiles including turtles, alligators, and crocodiles exhibit a unique characteristic where sex determination occurs after fertilization. This phenomenon is known as temperature-dependent sex determination (TSD). In TSD, the sex of offspring is influenced by the temperatures experienced during egg incubation in the nest.
+In the majority of species, sex is determined during fertilization; however, reptiles likw turtles, alligators, and crocodiles exhibit a unique characteristic where sex determination occurs after fertilization. This process is known as temperature-dependent sex determination (TSD). In TSD, the sex of offspring is influenced by the temperatures experienced during egg incubation in the nest.
 
 Our project is motivated by a keen interest in understanding TSD, particularly in turtles. While TSD was first described in a lizard, the order Testudines has played an important role in advancing scientists' understanding of TSD. Studies on species within Testudines brought TSD to the attention of the broader research community, and the term "temperature-dependent sex determination" also first appeared in a study of a community of North American turtles in 1979 (Yntema, 1976; Bull and Vogt, 1979).
 
-We aim to test TSD phenomenon by ourselves with focusing on the order Testudines. We will explore the following questions: 1. Does temperature affect the sex ratio of turtles? If so, how does temperature influence the sex ratio of turtles? 2. Is temperature the sole determinant of turtle sex, or are there other important factors?
+We aim to test the TSD phenomenon by ourselves with a focus on the order Testudines. We will explore the following questions: 1. Does temperature affect the sex ratio of turtles? If so, how does temperature influence the sex ratio of turtles? 2. Is temperature the sole determinant of turtle sex, or are there other important factors?
 
-# Dataset Information
+# 2  Dataset Information
 
-We use a dataset called Reptilian Offspring Sex and Incubation Environment (ROSIE). It is a dataset published in 2022 and contain over 7,000 individual measurements of offspring sex ratios in the order Testudines as well as SDM classifications for 149 species. This dataset obtain data by using Web of Science to search for research published since the discovery of TSD (1966) until 31 December 2020.
+We use a dataset called Reptilian Offspring Sex and Incubation Environment (ROSIE). It is a dataset published in 2022 and contains over 7,000 individual measurements of offspring sex ratios in the order Testudines as well as SDM classifications for 149 species. This dataset obtained data by using the Web of Science to search for research published since the discovery of TSD (1966) until 31 December 2020.
 
-Variables we used and wrangled for this project is shown in Table 1. More information about ROSIE Dataset can be found at: <https://github.com/calebkrueger/ROSIE/tree/main>
+Variables we used and wrangled for this project are shown in Table 1. More information about the ROSIE Dataset can be found at: <https://github.com/calebkrueger/ROSIE/tree/main>
 
-## Table: Dataset Information
+Table: Dataset Information
 
 | Used Variables      | Description                                                                            |
 |:-----------------------------------|:-----------------------------------|
@@ -101,16 +101,17 @@ Variables we used and wrangled for this project is shown in Table 1. More inform
 
 \newpage
 
-# Exploratory Analysis
+# 3  Exploratory Analysis
 
 To have a better understanding of our data, we explore the distribution of different turtle species, variations in hatching temperatures across diverse turtle families, and distribution of data location.
 
-## Explore the species in the dataset
+## 3.1  Explore the species in the dataset
 
-## Explore hatching temperature among families
+## 3.2  Explore hatching temperature among families
 
-## Explore data position
-The location of wild sampling points, or native range of species if captive, is plotted below as a map to show spatial distribution of data. The world continent data is downloaded from ArcGIS database.
+## 3.3  Explore data position
+
+The location of wild sampling points, or the native range of species if captive, is plotted below as a map to show the spatial distribution of data. The world continent data is downloaded from ArcGIS database.
 
 ```{r explore location 1, include=FALSE}
 # load data
@@ -154,25 +155,38 @@ ggplot()  +
 
 \newpage
 
-# Analysis
+# 4  Analysis
 
-## Question 1: Does temperature affect the sex ratio of turtles? 
+## 4.1  Question 1: Does temperature affect the sex ratio of turtles? 
 
-### how does temperature influence the sex ratio of turtles?
+### 4.1.1  how does temperature influence the sex ratio of turtles?
+
+Table: Temperature-Sex Ratio Relationship
+
+| Temperature      | Sex Ratio                                            |
+|:-----------------------------------|:-----------------------------------|
+| > 32°C   | Female                                                       |
+| 28-32 °C | Male:Female ~ 50:50                                          |
+| < 28°C   | Male                                                         |
 
 
-## Question 2: Are there other important factors influence sex ratio of turtles?
+## 4.2   Question 2: Are there other important factors influence sex ratio of turtles?
+
 To answer this question, we explore the impacts of temporal and spatial variation on the sex ratio of turtles. 
-### Temporal impacts
+
+### 4.2.1  Temporal impacts
+
 #### At Year Level
+
 Null Hypothesis: There is no effect of year on the sex ratio of turtles.
 Alternative Hypothesis: There is an effect of year on the sex ratio of turtles.
 
 Based on the linear model, we rejects the null hypothesis with a p value of 2.873e-16. This p-value also shows this model is statistically significant and a meaningful regression. But according to the R^2 value, only 1.495% of the total variance in sex ratio is explained by changes in year. The sex ratio is predicted to increase 0.0041539 with 1 year change. The results of model are clearly showed in Figure 
 The blue line shows a overall slightly increasing trend between year and sex ratio, indicating that as time passed by there are more male turtles. This is contradicts with our intuition that time increases will cause temperature increases and thus will lead to more female turtles. But because temperature trends might not be strictly linear or may be influenced by other factors in long term scenario, and the very noisy scatter plot and low R^2 value both show that this pattern only explain limited part of data, the linear model results of year and sex ratio is still statistically significant and a meaningful regression.
 
+Below is results of linear model and scatter plot of year and sex ratio.
 
-```{r year lm, echo=FALSE}
+```{r year lm, echo=FALSE, fig.cap="Year and sex ratio relationship", out.width="90%"}
 # Year
 Cleaned_Data_omit <- filter(Cleaned_Data, !is.na(Cleaned_Data$End_Date))
 Cleaned_Data_omit$End_Date <- as.Date(Cleaned_Data_omit$End_Date)
@@ -191,16 +205,19 @@ ggplot(Cleaned_Data_omit, aes(x = Year, y = Proportion_Male)) +
   theme_yh + 
   labs(x = "Year", y = "Sex Ratio", title = "Year and Sex Ratio Relationship")
 ```
+
 #### At Month Level
+
 Null Hypothesis: There is no effect of month on the sex ratio of turtles.
 Alternative Hypothesis: There is an effect of month on the sex ratio of turtles.
 
 Based on the linear model, we rejects the null hypothesis with a p value of 2.2e-16. But according to the R^2 value, only 2.857% of the total variance in sex ratio is explained by changes in month. 7 of the 12 months had p-values of less than 0.05, with April, June, August, September, and December being the exception. The p-values of the statistically significant month ranged from < 2e-16 (January) to 0.01576 (February). The impacts of month may be influences by spatial location and local climate. In order to explore monthly sex ratio distribution more clearly, we use box plot to show sex ratio by month for north hemisphere and south hemisphere respectively. The box plot for the north hemisphere clearly shows a trend of more male during colder season (November to April) and female during hotter season (May to October). This result is aligned with conclusion from Question 1 that higher temperature will cause more female turtles. The monthly distribution trend of sex ratio is not clearly for south hemisphere. This maybe because of lack of data in south hemisphere. But the highest proportion of male still appear in the colder season (July and August), and the rest of months all have less than 50% of male. Generally, the month impacts on sex ratio of turtles may also be influenced by the existence of breeding season.
 
+Below is results of linear model and box plots of sex ratio by month for different hemispheres.
 
-```{r month lm, echo=FALSE}
+```{r month lm, echo=FALSE, fig.cap="Sex ratio value distribution by month for north hemisphere", out.width="90%"}
 # Month
-Cleaned_Data_omit$Month <- factor(format(Cleaned_Data_omit$End_Date, "%B"), levels = month.name)
+Cleaned_Data_omit$Month <- factor(format(Cleaned_Data_omit$End_Date, "%b"),levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) 
 
 #lm
 temp_lm_mon <- lm(data = Cleaned_Data_omit, Proportion_Male ~ Month)
@@ -212,7 +229,10 @@ ggplot(Cleaned_Data_North, aes(x = Month, y = Proportion_Male)) +
   geom_boxplot(fill = "lightblue") +
   theme_minimal() +
   labs(x = "Month", y = "Sex Ratio", title = "Boxplot of Sex Ratio by Month for North Hemisphere")
+```
 
+
+```{r month lm 2, echo=FALSE, fig.cap="Sex ratio value distribution by month for south hemisphere", out.width="90%"}
 # South
 Cleaned_Data_South <- filter(Cleaned_Data_omit, Latitude < 0)
 ggplot(Cleaned_Data_South, aes(x = Month, y = Proportion_Male)) +
@@ -220,17 +240,24 @@ ggplot(Cleaned_Data_South, aes(x = Month, y = Proportion_Male)) +
   theme_minimal() +
   labs(x = "Month", y = "Sex Ratio", title = "Boxplot of Sex Ratio by Month for South Hemisphere")
 ```
-### Spatial impacts
+
+\newpage
+
+### 4.2.2  Spatial impacts
+
 We created a map to visualize the spatial impact on the sex ratio of turtles. However, it was difficult to identify any distinctive spatial pattern of sex ratio distribution from the map alone. However, after combining the temperature data with the sex ratio distribution, we were able to observe that the distribution of sex ratio is influenced by the temperature at different positions. The results from the map are consistent with the findings from Question 1 that location with lower temperature will have higher male proportion.
 
-```{r Spatial, echo=FALSE}
+```{r Spatial, echo=FALSE, fig.cap="Sex ratio distribution on map", out.width="99%"}
 ggplot() +
   geom_sf(data = world_continent,fill='grey') +
   geom_sf(data = data_sf, aes(color= Proportion_Male), size=3) +
   scale_color_gradient(low = "pink", high = "lightblue") + # 0 - all female, 1 - all male
   labs(title = "Sex Ratio Distribution", color = "Male Proportion")
 
+```
 
+
+```{r Spatial 2, echo=FALSE, fig.cap="Sex ratio distribution with temperature on map", out.width="99%"}
 data_sf_temp <- filter(data_sf, !is.na(data_sf$Mean_Temp))
 ggplot() +
   geom_sf(data = world_continent,fill='grey') +
@@ -247,8 +274,11 @@ ggplot() +
     #hjust = 1.4)
 ```
 
-### Best set of explanatory variables
-Though month and year do have effects on the sex ratio of turtles, the trend between time and sex ratio may be confounded by the trend between time and temperature. We then want to explore what are best set of variables for sex ratio determinants. Thus, we run an AIC analysis to determine what set of explanatory variables is best suited to influence sex ratio. We use date data to provides the most detailed temporal information, including day, month, and year, which can capture fine-grained temporal patterns. The result form AIC shows that temperature alone is the best explanatory variables for the sex ratio of turtles. This result may be able to improve by having more valid data as there is only 63 observations due to limited amount of humidity data.
+\newpage
+
+### 4.2.3  Best set of explanatory variables
+
+Though month and year do have effects on the sex ratio of turtles, the trend between time and sex ratio may be confounded by the trend between time and temperature. We then want to explore what are best set of variables for sex ratio determinants. Thus, we run an AIC analysis to determine what set of explanatory variables is best suited to influence sex ratio. We use date data to provides the most detailed temporal information, including day, month, and year, which can capture fine-grained temporal patterns. The result form AIC shows that temperature alone is the best explanatory variables for the sex ratio of turtles. This result may be able to improve by having more valid data as there is only 63 observations due to limited amount of humidity data. Below is the detail of model results.
 
 ```{r multi factors, echo=FALSE}
 # for all factors
@@ -264,9 +294,9 @@ step(AIC)
 
 \newpage
 
-# Summary and Conclusions
+# 5  Summary and Conclusions
 
-// summary from question 1//
+summary from question 1
 
 The sex ratio of turtles can be influenced by temporal factors, although the impact is generally small. While the distribution of sex ratios across space does not exhibit any specific pattern, there is a noticeable trend where locations with lower temperatures tend to have a higher proportion of male turtles. Despite this, it appears that neither spatial nor temporal factors are significant determinants of the sex ratio of turtles. The analysis strongly suggests that temperature is the primary determinant.
 
@@ -278,7 +308,7 @@ below may be used as ref for conclusion
 
 \newpage
 
-# References
+# 6  References
 
 Bull, J. J., & Vogt, R. C. (1979). Temperature-dependent sex determination in turtles. Science, 1186-1188.
 
@@ -286,4 +316,6 @@ Krueger, C. J., & Janzen, F. J. (2022). ROSIE, a database of reptilian offspring
 
 Yntema, C. L. (1976). Effects of incubation temperatures on sexual differentiation in the turtle, Chelydra serpentina. Journal of Morphology, 150(2), 453-461.
 
-Photo credit: <https://scitechdaily.com/why-does-temperature-determine-the-sex-of-turtles/> <https://www.pinterest.jp/pin/61783826112891810/>
+Photo credit: <https://scitechdaily.com/why-does-temperature-determine-the-sex-of-turtles/>
+
+<https://www.pinterest.jp/pin/61783826112891810/>
