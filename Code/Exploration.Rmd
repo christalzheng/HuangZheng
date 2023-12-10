@@ -65,7 +65,7 @@ plot(collaped_tree, cex = .5, label.offset = .1, no.margin = TRUE)
 
 ### Tree map
 
-Because there are too many species, the plot looks very messy...Then we can try to make a treemap instead (<https://r-graph-gallery.com/236-custom-your-treemap.html>).
+Though the phylogeny tree clearly showed the relationship between species. The species are too much to explore, we then try to make a treemap instead (<https://r-graph-gallery.com/236-custom-your-treemap.html>).
 
 ```{r treemap}
 library(ggplot2)
@@ -121,7 +121,9 @@ ggplot(Cleaned_Data, aes(x = Family, y = Proportion_Male,
   labs(x = "Family Names", y = "Sex ratio")
 ```
 
-We want to explore whether there are significant difference in sex ratio between different families. We can use One-way ANOVA to analyse the data. First, we need to check the normality.
+The sex ratio seems to vary among different families. Pelomedusidae, Cheloniidae, Chelydridae, Dermochelyidae, Kinosternidae have a mean average sex ratio that is lower than 0.5. Trionychidae has a sex ratio that is clearly greater than 0.5. These families may suffer from species extinction because of the unbalanced population. All the families have very high variance. This may be because of the shortage of data (so that extreme values can have more impact on the total data). This indicates the necessity of having more conservation effort in data collection or population management.
+
+We want to explore whether there are significant differences in sex ratio between different families. We can use One-way ANOVA to analyse the data. First, we need to check the normality.
 
 ```{r anova family vs sex ratio normality check}
 # check the normality of the data
@@ -146,7 +148,7 @@ Apart from Dermatemydidae and Trionychida, all data follows a normal distributio
 bartlett.test(Cleaned_Data$Proportion_Male, Cleaned_Data$Family)
 ```
 
-We can reject the null (P = 3.903e-08) i.e. variances are not equal.
+We can reject the null hypothesis (P = 3.903e-08) i.e. variances are not equal.
 
 ```{r anova test}
 family.sex.anova <- aov(data = Cleaned_Data, Proportion_Male ~ Family)
@@ -155,7 +157,7 @@ plot(family.sex.anova)
 TukeyHSD(family.sex.anova)
 ```
 
-From the results, we can see that there is a significant difference in sex ratio among families. Emydidae-Cheloniidae, Emydidae-Chelydridae and Pelomedusidae-Emydidae are the groups that show significant difference (p \< 0.05).
+From the results, we can see that there is a significant difference in sex ratio among families. Emydidae-Cheloniidae, Emydidae-Chelydridae and Pelomedusidae-Emydidae are the groups that show significant difference (p \< 0.05). The reason could be that the three families are more genetically different from each other than other families.
 
 #### Temperature among families
 
@@ -168,7 +170,7 @@ ggplot(Cleaned_Data, aes(x = Family, y = Mean_Temp,
   labs(x = "Family Names", y = expression("Hatching Temperature ("*~degree*C*")")) 
 ```
 
-Hatching temperature among all the families are around 25 - 35 degree Celsius. Emydidae has a high variance of hatching temperature for different individuals or communities. We want to see whether there is significant difference in Hatching temperature among families. Let's check normality first.
+Hatching temperature among all the families are around 25 - 35 degree Celsius. Emydidae has a high variance of hatching temperature for different individuals or communities. We want to see whether there is significant difference in hatching temperature among families. Let's check normality first.
 
 ```{r normality family vs temp}
 shapiro.test(Cleaned_Data$Mean_Temp[Cleaned_Data$Family == "Carettochelyidae"])
@@ -185,13 +187,13 @@ shapiro.test(Cleaned_Data$Mean_Temp[Cleaned_Data$Family == "Testudinidae"])
 # shapiro.test(Cleaned_Data$Mean_Temp[Cleaned_Data$Family == "Trionychidae"]) Trionychidae doesn't have enough data (n<3) so we can just delete it.
 ```
 
-The null hypothesis of Cheloniidae, Chelydridae, Dermochelyidae, Emydidae, Geoemydidae, Kinosternidae can be rejected.
+The null hypothesis of Cheloniidae, Chelydridae, Dermochelyidae, Emydidae, Geoemydidae, Kinosternidae can be rejected. Thus, Cheloniidae, Chelydridae, Dermochelyidae, Emydidae, Geoemydidae, Kinosternidae are normally distributed.
 
 ```{r test for equal variance}
 bartlett.test(Cleaned_Data$Mean_Temp, Cleaned_Data$Family)
 ```
 
-We can reject the null (P = \<2.2e-16) i.e. variances are not equal.
+We can reject the null hypothesis (P = \<2.2e-16) i.e. variances are not equal.
 
 ```{r anova test}
 family.temp.anova <- aov(data = Cleaned_Data, Mean_Temp ~ Family)
@@ -200,7 +202,7 @@ plot(family.temp.anova)
 TukeyHSD(family.temp.anova)
 ```
 
-There is significant difference in hatching temperature among families (F = 184.5, P \<2e-16).
+There is significant difference in hatching temperature among families (F = 184.5, P \<2e-16). The result corresponds with the box plot we made above. This variation of temperature among families can be due to the genetic variation or the population conditions.
 
 \newpage
 

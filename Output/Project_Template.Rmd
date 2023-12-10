@@ -162,7 +162,7 @@ ggplot()  +
 
 ## 4.1  Question 1: Does temperature affect the sex ratio of turtles? 
 
-### 4.1.1  how does temperature influence the sex ratio of turtles?
+### 4.1.1  How does temperature influence the sex ratio of turtles?
 
 Table: Temperature-Sex Ratio Relationship
 
@@ -172,6 +172,7 @@ Table: Temperature-Sex Ratio Relationship
 | 28-32 °C | Male:Female ~ 50:50                                          |
 | < 28°C   | Male                                                         |
 
+### 4.1.2 Does the impact of temperature on sex ratio differentiate among families?
 
 ## 4.2   Question 2: Are there other important factors influence sex ratio of turtles?
 

@@ -8,30 +8,37 @@ library(tidyverse)
 library(here)
 library(ggplot2)
 
-Cleaned_Data <- read.csv(here("Processed/Cleaned_Data.csv"), 
+Cleaned_Data <- read.csv(here("Data/Processed/Cleaned_Data.csv"), 
                          stringsAsFactors = TRUE)
-Data_Families<- read.csv(here("Processed/Data_Families.csv"), 
+Data_Families<- read.csv(here("Data/Processed/Data_Families.csv"), 
          stringsAsFactors = TRUE)
 theme_yh <- theme_classic(base_size = 14) + 
   theme(axis.text = element_text(color = "black"),
   legend.position = "right",
   legend.text = element_text(size = 10),
   legend.title = element_text(size = 11),
-  plot.title = element_text(size = rel(1.5)),
+  plot.title = element_text(size = rel(1.5), hjust = 0.5),
   axis.text.x = element_text(angle = 75, vjust = 1, hjust=1))
 ```
 
 ## Visualization
+We first want to visually inspect the influence of temperature on sex ratio. Here, we created a scatter plot with a smooth lines showing the trend. We fitted a linear regression line in red to the plot.
 ```{r scatter plot}
 Data_omit <- filter(Cleaned_Data, !is.na(Cleaned_Data$Mean_Temp))
 ggplot(Data_omit, aes(x = Mean_Temp, y = Proportion_Male)) + 
-  geom_point() + geom_smooth(method=lm , color="red", se=TRUE) +
+  geom_point() + geom_smooth(method=lm , color= "#f5924c", se= F) + 
   theme_yh + labs(x = expression("Hatching Temperature ("*~degree*C*")"), 
-                  y = "Sex Ratio", title = "Scatter plot of temperature vs sex ratio")
+                  y = "Sex Ratio", title = "Temperature and Sex Ratio")
 ```
-Though there seems to have a linear trend, we can't be certain. Therefore, linear regression analysis is still needed. 
+The linear trend can be seen on the scatter plot. As temperature increases, the sex ratio decreases. This trend corresponds to our expectation as higher temperature may lead to more female population. Yet, a more sophisticated linear regression analysis is still needed to be assured. 
+
 
 ## Linear regression
+
+Null Hypothesis: There is no effect of temperature on the sex ratio of turtles.
+Alternative Hypothesis: There is an effect of temperature on the sex ratio of turtles.
+
+Sex ratio in our research is defined as male proportion ranging from 0 to 1. The plots are shown below. 
 
 ```{r lm, echo=FALSE}
 tempSex.regression <- lm(
@@ -42,10 +49,15 @@ summary(tempSex.regression)
 par(mfrow = c(2,2), mar=c(4,4,4,4))
 plot(tempSex.regression)
 ```
-We assured that temperature has a great impact on Sex ratio i.e. Male Proportion (P < 0.01).
+We find that R-squared value is 0.1606 which is pretty low meaning that only a small proportion of data can be explained by this linear regression model. However, we still assured that temperature has a great impact on sex ratio after rejecting the null hypothesis (P < 2e-16). 
+
+(Add table here)
+After some literature reviews, we learned the relationship of temperature and sex ratio shown in the table above. When temperature is between 28 to 32 °C, the sex ratio (male proportion in our study) is approximately 0.5. Temperature below 28 °C results in a higher proportion of male while temperature above 32 °C leads to more female. 
+
+We can see from the scattered plot that from 28 - 32 degree Celsius, the number of points that lay around 0.5 increases. This result corresponds to the other TSD research shown in the table. 
 
 ## Bubble plot
-We also want to visualize the impact of temperature on sex ratio among species. Bubble plot seems to be a great option.
+We also want to visualize the impact of temperature on sex ratio among species. Bubble plot seems to be a great option. 
 
 ```{r bubble plot, echo=FALSE, fig.height=5, fig.width=6}
 Data_family_temp <- select(Data_omit, Family, Mean_Temp, Proportion_Male)
@@ -54,4 +66,7 @@ ggplot(Data_family_temp, aes(x=Family, y=Mean_Temp, size = Proportion_Male, colo
   labs(y = expression("Hatching Temperature ("*~degree*C*")")) + 
   scale_size(name="Sex ratio")
 ```
-We can see that the impact of temperature on sex ratio exist among most of the families. 
+We can see that the impact of temperature on sex ratio exists among most of the families including Carettochelyidae, Cheloniidae, Dermatemydidae, Geoemydidae, Kinosternidae, Podocnemididae and Testudinidae. We can see from the graph that As the temperature goes higher, the sex ratio of these families goes lower. 
+
+Instead, Chelydridae, Dermochelyidae, Emydidae and Pelomedusidae have a trend that when temperature is lower than a certain value, sex ratio becomes higher as the temperature goes higher. Yet, when temperature is higher than a certain value, the trend reverses.
+
