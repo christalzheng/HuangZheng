@@ -22,7 +22,7 @@ theme_yh <- theme_classic(base_size = 14) +
 ```
 
 ## Visualization
-We first want to visually inspect the influence of temperature on sex ratio. Here, we created a scatter plot with a smooth lines showing the trend. We fitted a linear regression line in red to the plot.
+We first want to visually inspect the influence of temperature on sex ratio. Here, we created a scatter plot with a smooth lines showing the trend. We fitted a linear regression line in orange to the plot.
 ```{r scatter plot}
 Data_omit <- filter(Cleaned_Data, !is.na(Cleaned_Data$Mean_Temp))
 ggplot(Data_omit, aes(x = Mean_Temp, y = Proportion_Male)) + 

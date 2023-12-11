@@ -29,7 +29,7 @@ theme_yh <- theme_classic(base_size = 14) +
 
 ### Phylogenetic tree
 
-We used a "rotl" package to interact with the Open Tree of Life data (<https://doi.org/10.1111/2041-210X.12593>). First, we need to change the name of the species into something compatible with the package.
+We want to use a "rotl" package to interact with the Open Tree of Life data (<https://doi.org/10.1111/2041-210X.12593>). First, we need to change the name of the species into something compatible with the package.
 
 ```{r generate phylogenetic tree, fig.height=10, fig.width=6, warning=FALSE}
 Cleaned_Data$Species_names <- as.character(Cleaned_Data$Species)  # Convert factors to characters
@@ -99,7 +99,7 @@ interactive_tree
 
 # save the widget
 library(htmlwidgets)
-saveWidget(interactive_tree, file=paste0(here(), "/Processed/interactiveTreemap.html"))
+saveWidget(interactive_tree, file=paste0(here(), "/Data/Processed/interactiveTreemap.html"))
 ```
 
 From the tree maps (ggplot map and interactive tree map) we can see that all of the species are within Testudines Order. The most abundant family is Cheloniidae, Emydidae and Chelydridae. The species we have most in our database is Common snapping turtle (Chelydra serpentina) and Green sea turtle (Chelonia mydas) with a occurrence of 1123 and 881 records.
@@ -193,7 +193,7 @@ The null hypothesis of Cheloniidae, Chelydridae, Dermochelyidae, Emydidae, Geoem
 bartlett.test(Cleaned_Data$Mean_Temp, Cleaned_Data$Family)
 ```
 
-We can reject the null hypothesis (P = \<2.2e-16) i.e. variances are not equal.
+We can reject the null hypothesis (P = <2.2e-16) i.e. variances are not equal.
 
 ```{r anova test}
 family.temp.anova <- aov(data = Cleaned_Data, Mean_Temp ~ Family)
@@ -202,7 +202,7 @@ plot(family.temp.anova)
 TukeyHSD(family.temp.anova)
 ```
 
-There is significant difference in hatching temperature among families (F = 184.5, P \<2e-16). The result corresponds with the box plot we made above. This variation of temperature among families can be due to the genetic variation or the population conditions.
+There is significant difference in hatching temperature among families (F = 184.5, P <2e-16). The result corresponds with the box plot we made above. This variation of temperature among families can be due to the genetic variation or the population conditions.
 
 \newpage
 
