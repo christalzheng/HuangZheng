@@ -7,7 +7,7 @@ output: pdf_document
 toc: yes
 ---
 \newpage
-[A cute baby sea turtle](../Output/Baby Sea Turtles.jpeg){width="30%"}
+![A cute baby sea turtle](../Output/Baby Sea Turtles.jpeg){width="20%"}
 
 \tableofcontents 
 \listoftables 
@@ -110,9 +110,9 @@ Table: Summary of Dataset
 To have a better understanding of our data, we explore the distribution of different turtle species, variations in hatching temperatures and sex ratio across diverse turtle families, and distribution of data location.
 
 ## 3.1  Explore the species in the dataset
-We want to use a "rotl" package to interact with the Open Tree of Life data (<https://doi.org/10.1111/2041-210X.12593>). First, we need to change the name of the species into something compatible with the package.
+In order to explore species information in the dataset, we use the "rotl" package to interact with the Open Tree of Life data (details about this package: <https://doi.org/10.1111/2041-210X.12593>).
 
-```{r generate phylogenetic tree, fig.height=10, fig.width=6, warning=FALSE, fig.cap="Phylogenetic tree of species in our database"}
+```{r tree set, include=FALSE}
 Cleaned_Data$Species_names <- as.character(Cleaned_Data$Species)  # Convert factors to characters
 
 # Replace underscores with spaces
@@ -141,16 +141,22 @@ write.csv(Data_species, file = here("Data/Processed/Data_Families.csv"), row.nam
 Data_species$taxa <- rotl::tnrs_match_names(Data_species$Species_names)
 tree <- tol_induced_subtree(ott_ids = ott_id(Data_species$taxa))
 collaped_tree <- ape::ladderize(ape::collapse.singles(tree, root.edge = FALSE)) ## tried to make this less messy but doesn't work
+```
+
+
+```{r generate phylogenetic tree, fig.height=10, fig.width=6, echo=FALSE, fig.cap="Phylogenetic tree of species in our database"}
 plot(collaped_tree, cex = .5, label.offset = .1, no.margin = TRUE)
 ```
 
-Though the phylogeny tree clearly showed the relationship between species. The species are too much to explore, we want to make a treemap as well (<https://r-graph-gallery.com/236-custom-your-treemap.html>).
+\newpage
 
-```{r treemap, fig.cap="Tree map of species in our database"}
+Although the phylogenetic tree clearly shows the relationship between species, it can be too complex and difficult to explore. Therefore, we created a treemap to provide an overview of species information in our data. (code reference for treemap: <https://r-graph-gallery.com/236-custom-your-treemap.html>).
+
+```{r treemap,  echo=FALSE, fig.cap="Tree map of species in our database"}
 library(ggplot2)
-## install.packages("treemap")
-# install.packages("remotes")
-# remotes::install_github("d3treeR/d3treeR")
+#install.packages("treemap")
+#install.packages("remotes")
+#remotes::install_github("d3treeR/d3treeR")
 library(treemap)
 library(d3treeR)
 
@@ -179,14 +185,16 @@ library(htmlwidgets)
 saveWidget(interactive_tree, file=paste0(here(), "/Data/Processed/interactiveTreemap.html"))
 ```
 
-You can view the interactive tree map using the link below. 
+The interactive tree map can be seen using the link: 
 [Interactive Tree Map](../Data/Processed/interactiveTreemap.html)
 
-From the tree maps (ggplot map and interactive tree map) we can see that all of the species are within Testudines Order. The most abundant family is Cheloniidae, Emydidae and Chelydridae. The species we have most in our database is Common snapping turtle (Chelydra serpentina) and Green sea turtle (Chelonia mydas) with a occurrence of 1123 and 881 records.
+From the tree maps we can clearly see that all of the species are within Testudines Order (Figure 2 and Figure 3). The most abundant family is Cheloniidae, Emydidae and Chelydridae. The species we have most in our database is common snapping turtle (Chelydra serpentina) and green sea turtle (Chelonia mydas) with a occurrence of 1123 and 881 records.
+
+\newpage
 
 
 ## 3.2  Explore hatching temperature among families
-```{r temp, fig.cap="Box plot of temperature among families"}
+```{r temp, echo=FALSE, fig.cap="Box plot of temperature among families", warning=FALSE, out.width="90%"}
 ggplot(Cleaned_Data, aes(x = Family, y = Mean_Temp, 
                       fill = Family, 
                       label = Mean_Temp)) + 
@@ -195,9 +203,12 @@ ggplot(Cleaned_Data, aes(x = Family, y = Mean_Temp,
   labs(x = "Family Names", y = expression("Hatching Temperature ("*~degree*C*")")) 
 ```
 
-Hatching temperature among all the families are around 25 - 35 degree Celsius. Emydidae has a high variance of hatching temperature for different individuals or communities. We want to see whether there is significant difference in hatching temperature among families. Let's check normality first.
+The hatching temperature for different turtle families generally falls between 25-35 degree Celsius (Figure 4). However, there is a high variance in the hatching temperature for different individuals or communities of the Emydidae family. 
 
-```{r normality family vs temp}
+To investigate if there is a significant difference in hatching temperature among families, we use the shapiro test to check for normality. The null hypothesis is they are not normally distributed.
+
+
+```{r normality family vs temp, echo=FALSE}
 shapiro.test(Cleaned_Data$Mean_Temp[Cleaned_Data$Family == "Carettochelyidae"])
 shapiro.test(Cleaned_Data$Mean_Temp[Cleaned_Data$Family == "Cheloniidae"])
 shapiro.test(Cleaned_Data$Mean_Temp[Cleaned_Data$Family == "Chelydridae"])
@@ -214,25 +225,32 @@ shapiro.test(Cleaned_Data$Mean_Temp[Cleaned_Data$Family == "Testudinidae"])
 
 The null hypothesis of Cheloniidae, Chelydridae, Dermochelyidae, Emydidae, Geoemydidae, Kinosternidae can be rejected. Thus, Cheloniidae, Chelydridae, Dermochelyidae, Emydidae, Geoemydidae, Kinosternidae are normally distributed.
 
-```{r test for equal variance temp}
+We can also reject the null hypothesis from bartlett test (P = <2.2e-16) i.e. variances are not equal.
+
+```{r test for equal variance temp, echo=FALSE}
 bartlett.test(Cleaned_Data$Mean_Temp, Cleaned_Data$Family)
 ```
 
-We can also reject the null hypothesis of bartlett test (P = <2.2e-16) i.e. variances are not equal.
 
-```{r anova test temp among families}
+There is significant difference in hatching temperature among families (F = 184.5, P <2e-16). Families with high variance in hatching temperature from the Tukey's HSD test result corresponds with the result shown in Figure 4. This variation of temperature among families can be due to the genetic variation or the difference in population extinction status.
+
+
+```{r anova test temp among families, echo=FALSE, out.width="85%", fig.cap="Residual plots for anova test on temperature vs family"}
 family.temp.anova <- aov(data = Cleaned_Data, Mean_Temp ~ Family)
 summary(family.temp.anova)
+par(mfrow = c(2, 2))
 plot(family.temp.anova)
 TukeyHSD(family.temp.anova)
 ```
 
-There is significant difference in hatching temperature among families (F = 184.5, P <2e-16). The result corresponds with the box plot we made above. This variation of temperature among families can be due to the genetic variation or the difference in population extinction status.
 
+\newpage
 
 ## 3.3  Explore sex ratio among families
 
-```{r stats, fig.cap="Box plot of sex ratio among families"}
+For this project, we define sex ratio as the proportion of male in the population. We abandon the male/female sex ratio definition since it can be rendered meaningless when the number of females is zero. 
+
+```{r stats, echo=FALSE, fig.cap="Box plot of sex ratio among families", warning=FALSE}
 ggplot(Cleaned_Data, aes(x = Family, y = Proportion_Male, 
                       fill = Family, 
                       label = Proportion_Male)) + 
@@ -241,11 +259,11 @@ ggplot(Cleaned_Data, aes(x = Family, y = Proportion_Male,
   labs(x = "Family Names", y = "Sex ratio")
 ```
 
-The sex ratio seems to vary among different families. Pelomedusidae, Cheloniidae, Chelydridae, Dermochelyidae, Kinosternidae have a mean average sex ratio that is lower than 0.5. Trionychidae has a sex ratio that is clearly greater than 0.5. These families may suffer from species extinction because of the unbalanced population. All the families have very high variance. This may be because of the shortage of data (so that extreme values can have more impact on the total data). This indicates the necessity of having more conservation effort in data collection or population management.
+The sex ratio seems to vary among different families (Figure 6). According to the figure 6, Pelomedusidae, Cheloniidae, Chelydridae, Dermochelyidae, Kinosternidae have a mean average sex ratio that is lower than 0.5 (i.e. more female). Trionychidae has a sex ratio that is clearly greater than 0.5 (i.e. more male). These families may suffer from species extinction because of the unbalanced population. All the families have very high variance. This may be because of the shortage of data (so that extreme values can have more impact on the total data). This indicates the necessity of having more conservation effort in data collection or population management.
 
-We want to explore whether there are significant differences in sex ratio between different families. We can use One-way ANOVA to analyse the data. First, we need to check the normality.
+We want to explore whether there are significant differences in sex ratio between different families. We use One-way ANOVA to analyse the data. First, we test the normality:
 
-```{r anova family vs sex ratio normality check}
+```{r anova family vs sex ratio normality check, echo=FALSE}
 # check the normality of the data
 shapiro.test(Cleaned_Data$Proportion_Male[Cleaned_Data$Family == "Carettochelyidae"])
 shapiro.test(Cleaned_Data$Proportion_Male[Cleaned_Data$Family == "Cheloniidae"])
@@ -262,23 +280,25 @@ shapiro.test(Cleaned_Data$Proportion_Male[Cleaned_Data$Family == "Trionychidae"]
 
 ```
 
-Apart from Dermatemydidae and Trionychida, all data follows a normal distribution. We then check equality of variance.
+Apart from Dermatemydidae and Trionychida, all data follows a normal distribution. We then check equality of variance:
 
-```{r test for equal variance sex ratio}
+```{r test for equal variance sex ratio, echo=FALSE}
 bartlett.test(Cleaned_Data$Proportion_Male, Cleaned_Data$Family)
 ```
 
 We can reject the null hypothesis (P = 3.903e-08) i.e. variances are not equal.
 
-```{r anova test sex ratio among families}
+```{r anova test sex ratio among families, echo=FALSE, out.width="90%", fig.cap="Residual plots for anova test on sex ratio vs family"}
 family.sex.anova <- aov(data = Cleaned_Data, Proportion_Male ~ Family)
 summary(family.sex.anova)
+par(mfrow = c(2, 2))
 plot(family.sex.anova)
 TukeyHSD(family.sex.anova)
 ```
 
 From the results, we can see that there is a significant difference in sex ratio among families. Emydidae-Cheloniidae, Emydidae-Chelydridae and Pelomedusidae-Emydidae are the groups that show significant difference (p < 0.05). The reason could be that the three families are more genetically different from each other than other families.
 
+\newpage
 
 ## 3.4  Explore data position
 
@@ -329,11 +349,11 @@ ggplot()  +
 # 4  Analysis
 
 ## 4.1  Question 1: Does temperature affect the sex ratio of turtles? 
-To answer that question, we first want to visually inspect the influence of temperature on sex ratio. Here, we created a scatter plot with a smooth lines showing the trend. We fitted a linear regression line in orange to the plot.
-```{r scatter plot, fig.cap="Scatter plot of temperature and sex ratio"}
+To answer this question, we first want to visually inspect the influence of temperature on sex ratio. Here, we created a scatter plot with a smooth line showing the trend. We fitted a linear regression line in orange to the plot.
+```{r scatter plot, echo=FALSE, fig.cap="Scatter plot of temperature and sex ratio"}
 Data_omit <- filter(Cleaned_Data, !is.na(Cleaned_Data$Mean_Temp))
 ggplot(Data_omit, aes(x = Mean_Temp, y = Proportion_Male)) + 
-  geom_point() + geom_smooth(method=lm , color= "#f5924c", se= F) + 
+  geom_point() + geom_smooth(method=lm , color= "#f5924c", se= T) + 
   theme_yh + labs(x = expression("Hatching Temperature ("*~degree*C*")"), 
                   y = "Sex Ratio", title = "Temperature and Sex Ratio")
 ```
@@ -342,8 +362,6 @@ The linear trend can be seen on the scatter plot. As temperature increases, the 
 
 Null Hypothesis: There is no effect of temperature on the sex ratio of turtles.
 Alternative Hypothesis: There is an effect of temperature on the sex ratio of turtles.
-
-Sex ratio in our research is defined as male proportion ranging from 0 to 1. The plots are shown below. 
 
 ```{r lm, echo=FALSE, fig.cap="Linear regression of temperature and sex ratio"}
 tempSex.regression <- lm(
@@ -355,12 +373,12 @@ par(mfrow = c(2,2), mar=c(4,4,4,4))
 plot(tempSex.regression)
 ```
 
-We find that R-squared value is 0.1606 which is pretty low meaning that only a small proportion of data can be explained by this linear regression model. However, we still assured that temperature has a great impact on sex ratio after rejecting the null hypothesis (P < 2e-16). 
+According to the model, we find that R-squared value is 0.1606 which is very low meaning that only a small proportion of data can be explained by this linear regression model. However, we still assured that temperature has a great impact on sex ratio after rejecting the null hypothesis (P < 2e-16). 
+
+\newpage
 
 ### 4.1.1  How does temperature influence the sex ratio of turtles?
-After some literature reviews, we learned the relationship of temperature and sex ratio shown in the table above. When temperature is between 28 to 32 °C, the sex ratio (male proportion in our study) is approximately 0.5. Temperature below 28 °C results in a higher proportion of male while temperature above 32 °C leads to more female. 
-
-We can see from the scattered plot that from 28 - 32 degree Celsius, the number of points that lay around 0.5 increases. This result corresponds to the other TSD research shown in the table. 
+After some literature reviews, we learned the relationship of temperature and sex ratio shown in the table 2.  When temperature is between 28 to 32 °C, the sex ratio (male proportion in our study) is approximately 0.5. Temperature below 28 °C results in a higher proportion of male while temperature above 32 °C leads to more female. We can see from our Figure 9 that from 28 - 32 degree Celsius, the number of points lay around sex ratio = 0.5 increases.
 
 Table: Temperature-Sex Ratio Relationship
 
@@ -371,18 +389,21 @@ Table: Temperature-Sex Ratio Relationship
 | < 28°C   | Male                                                         |
 
 ### 4.1.2 Does the impact of temperature on sex ratio differentiate among families?
-We also want to visualize the impact of temperature on sex ratio among species. Bubble plot seems to be a great option. 
+We then use bubble plot to visualize the impact of temperature on sex ratio among species.
 
-```{r bubble plot, echo=FALSE, fig.height=5, fig.width=6, fig.cap="The impact of temperature on sex ratio among families"}
+
+```{r bubble plot, echo=FALSE, fig.height=8, out.height="45%", fig.width=11, fig.cap="The impact of temperature on sex ratio among families"}
 Data_family_temp <- select(Data_omit, Family, Mean_Temp, Proportion_Male)
 ggplot(Data_family_temp, aes(x=Family, y=Mean_Temp, size = Proportion_Male, color = Family)) +
     geom_point(alpha=0.6) + scale_color_brewer(palette="Set3") + theme_yh +
   labs(y = expression("Hatching Temperature ("*~degree*C*")")) + 
   scale_size(name="Sex ratio")
 ```
-We can see that the impact of temperature on sex ratio exists among most of the families including Carettochelyidae, Cheloniidae, Dermatemydidae, Geoemydidae, Kinosternidae, Podocnemididae and Testudinidae. We can see from the graph that As the temperature goes higher, the sex ratio of these families goes lower. 
 
-Instead, Chelydridae, Dermochelyidae, Emydidae and Pelomedusidae have a trend that when temperature is lower than a certain value, sex ratio becomes higher as the temperature goes higher. Yet, when temperature is higher than a certain value, the trend reverses.
+
+The impact of temperature on sex ratio exists among most of the families including Carettochelyidae, Cheloniidae, Dermatemydidae, Geoemydidae, Kinosternidae, Podocnemididae and Testudinidae (Figure 11). We can see from the graph that as the temperature goes higher, the sex ratio of these families goes lower. However, Chelydridae, Dermochelyidae, Emydidae and Pelomedusidae have a trend that when temperature is lower than a certain value, sex ratio becomes higher as the temperature goes higher. Yet, when temperature is higher than a certain value, the trend reverses.
+
+\newpage
 
 ## 4.2   Question 2: Are there other important factors influence sex ratio of turtles?
 
@@ -395,8 +416,7 @@ To answer this question, we explore the impacts of temporal and spatial variatio
 Null Hypothesis: There is no effect of year on the sex ratio of turtles.
 Alternative Hypothesis: There is an effect of year on the sex ratio of turtles.
 
-Based on the linear model, we rejects the null hypothesis with a p value of 2.873e-16. This p-value also shows this model is statistically significant and a meaningful regression. But according to the R^2 value, only 1.495% of the total variance in sex ratio is explained by changes in year. The sex ratio is predicted to increase 0.0041539 with 1 year change. The results of model are clearly showed in Figure 
-The blue line shows a overall slightly increasing trend between year and sex ratio, indicating that as time passed by there are more male turtles. This is contradicts with our intuition that time increases will cause temperature increases and thus will lead to more female turtles. But because temperature trends might not be strictly linear or may be influenced by other factors in long term scenario, and the very noisy scatter plot and low R^2 value both show that this pattern only explain limited part of data, the linear model results of year and sex ratio is still statistically significant and a meaningful regression.
+Based on the linear model, we rejects the null hypothesis with a p value of 2.873e-16. This p-value also shows this model is statistically significant and a meaningful regression. But according to the R^2 value, only 1.495% of the total variance in sex ratio is explained by changes in year. The sex ratio is predicted to increase 0.0041539 with 1 year change. The results of model are clearly showed in Figure 12.The blue line shows a overall slightly increasing trend between year and sex ratio, indicating that as time passed by there are more male turtles. This is contradicts with our intuition that time increases will cause temperature increases and thus will lead to more female turtles. But because temperature trends might not be strictly linear or may be influenced by other factors in long term scenario, and the very noisy scatter plot and low R^2 value both show that this pattern only explain limited part of data, the linear model results of year and sex ratio is still statistically significant and a meaningful regression.
 
 Below is results of linear model and scatter plot of year and sex ratio.
 
@@ -419,6 +439,8 @@ ggplot(Cleaned_Data_omit, aes(x = Year, y = Proportion_Male)) +
   theme_yh + 
   labs(x = "Year", y = "Sex Ratio", title = "Year and Sex Ratio Relationship")
 ```
+
+\newpage
 
 #### At Month Level
 
@@ -461,7 +483,7 @@ ggplot(Cleaned_Data_South, aes(x = Month, y = Proportion_Male)) +
 
 We created a map to visualize the spatial impact on the sex ratio of turtles. However, it was difficult to identify any distinctive spatial pattern of sex ratio distribution from the map alone. However, after combining the temperature data with the sex ratio distribution, we were able to observe that the distribution of sex ratio is influenced by the temperature at different positions. The results from the map are consistent with the findings from Question 1 that location with lower temperature will have higher male proportion.
 
-```{r Spatial, echo=FALSE, fig.cap="Sex ratio distribution on map", out.width="99%"}
+```{r Spatial, echo=FALSE, fig.cap="Sex ratio distribution on map", out.width="90%"}
 ggplot() +
   geom_sf(data = world_continent,fill='grey') +
   geom_sf(data = data_sf, aes(color= Proportion_Male), size=3) +
@@ -471,7 +493,7 @@ ggplot() +
 ```
 
 
-```{r Spatial 2, echo=FALSE, fig.cap="Sex ratio distribution with temperature on map", out.width="99%"}
+```{r Spatial 2, echo=FALSE, fig.cap="Sex ratio distribution with temperature on map", out.width="90%"}
 data_sf_temp <- filter(data_sf, !is.na(data_sf$Mean_Temp))
 ggplot() +
   geom_sf(data = world_continent,fill='grey') +
@@ -509,13 +531,13 @@ step(AIC)
 \newpage
 
 # 5  Summary and Conclusions
-The sex ratio of turtles can be influenced by temporal factors, although the impact is generally small. While the distribution of sex ratios across space does not exhibit any specific pattern, there is a noticeable trend where locations with lower temperatures tend to have a higher proportion of male turtles. Despite this, it appears that neither spatial nor temporal factors are significant determinants of the sex ratio of turtles. The analysis strongly suggests that temperature is the primary determinant. This result is based on the data from 103 species in 12 families. All of them are in the Testudines order. 
+The sex ratio of turtles can be influenced by temporal factors, although the impact is generally small. While the distribution of sex ratios across space does not exhibit any specific pattern, there is a noticeable trend where locations with lower temperatures tend to have a higher proportion of male turtles. Despite this, it appears that neither spatial nor temporal factors are significant determinants of the sex ratio of turtles. The analysis strongly suggests that temperature is the primary determinant. 
 
 The main limitation of our study is that linear regression model may not be the best fit to the data as the trend is more or less polynomial which results in low R-squared values for the linear regression models. Our results may also be limited from the variation of sex ratio among different families and the variation of the amount of data we have for each family. Our data are mainly from north hemisphere which may also affect our results. 
 
 Nevertheless, we have seen a strong relationship between temperature and sex ratio of turtles. As climate change gets worse, the increased temperature can easily harm turtles' population by leading to irregular and potentially lethal incubation conditions (NOAA, 2023). Research on how to mitigate the impact of climate change on turtles population and conservation action should be done in the very near future. 
 
-[Smiling red-eared turtles](../Output/Red-Eared-Slider-Turtle.jpeg)
+![Smiling red-eared turtles](../Output/Red-Eared-Slider-Turtle.jpeg)
 
 \newpage
 
@@ -525,9 +547,9 @@ Bull, J. J., & Vogt, R. C. (1979). Temperature-dependent sex determination in tu
 
 Krueger, C. J., & Janzen, F. J. (2022). ROSIE, a database of reptilian offspring sex ratios and sex-determining mechanisms, beginning with Testudines. Scientific Data, 9(1), 22.
 
-Yntema, C. L. (1976). Effects of incubation temperatures on sexual differentiation in the turtle, Chelydra serpentina. Journal of Morphology, 150(2), 453-461.
+NOAA, What causes a sea turtle to be born male or female? (2023). NOAA's National Ocean Service. https://oceanservice.noaa.gov/facts/temperature-dependent.html
 
-! <https://oceanservice.noaa.gov/facts/temperature-dependent.html>
+Yntema, C. L. (1976). Effects of incubation temperatures on sexual differentiation in the turtle, Chelydra serpentina. Journal of Morphology, 150(2), 453-461.
 
 Photo credit: <https://scitechdaily.com/why-does-temperature-determine-the-sex-of-turtles/>
 
